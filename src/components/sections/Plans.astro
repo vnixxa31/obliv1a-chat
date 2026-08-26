@@ -1,0 +1,105 @@
+---
+import { RiTimeLine } from "@remixicon/react"
+
+import Section from "@/components/brand/Section.astro"
+import { Button } from "@/components/ui/button"
+
+// A ruled table, not three floating price cards. The system has no cards, and a
+// price list is tabular data in the first place: mono first column, mono
+// uppercase headers, tabular numerals (DESIGN.md §Components).
+//
+// Max is planned and not available, so it carries a caution tag rather than a
+// price presented as if you could pay it today.
+const plans = [
+  {
+    name: "Free",
+    price: "$0",
+    models: "Obliv1a Flash",
+    images: "Text only",
+  },
+  {
+    name: "Starter",
+    price: "$10 / month",
+    models: "Obliv1a Flash, expanded access",
+    images: "Text only",
+  },
+  {
+    name: "Pro",
+    price: "$25 / month",
+    models: "Obliv1a Flash and Obliv1a Pro",
+    images: "Text and images",
+  },
+  {
+    name: "Max",
+    price: "$50 / month",
+    models: "Obliv1a Flash, Pro, and Max",
+    images: "Text and images",
+    planned: true,
+  },
+]
+---
+
+<Section id="plans" width="wide" class="pt-12 pb-14 md:pt-16 md:pb-24">
+  <div class="flex flex-col gap-3">
+    <p class="t-label mute">Plans</p>
+    <h2 class="t-h2">Three plans today, with a third planned.</h2>
+    <p class="t-lead">
+      Obliv1a Flash answers on every plan, including the free one. Paying buys
+      more of it, and on Pro a second model that can also read images.
+    </p>
+  </div>
+
+  <div class="scroll-x mt-4">
+    <table class="spec spec-wide">
+      <thead>
+        <tr>
+          <th scope="col" class="w-[20%]">Plan</th>
+          <th scope="col" class="num w-[16%]">Price</th>
+          <th scope="col" class="w-[38%]">Models</th>
+          <th scope="col" class="w-[26%]">Reads</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          plans.map((plan) => (
+            <tr>
+              <td>
+                <span class="flex flex-wrap items-center gap-2">
+                  {plan.name}
+                  {plan.planned && (
+                    <span class="tag text-caution">
+                      <RiTimeLine size={12} aria-hidden="true" />
+                      Planned
+                    </span>
+                  )}
+                </span>
+              </td>
+              <td class="num">{plan.price}</td>
+              <td>{plan.models}</td>
+              <td>{plan.images}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <ul class="mt-4 grid gap-x-8 sm:grid-cols-2">
+    <li class="t-small mute border-t border-(--g-rule) py-3">
+      Free is free. No card required.
+    </li>
+    <li class="t-small mute border-t border-(--g-rule) py-3">
+      Payment is handled by Stripe. Obliv1a never sees your card details.
+    </li>
+    <li class="t-small mute border-t border-(--g-rule) py-3">
+      You can delete your account at any time. Ask for the account to go and it goes.
+    </li>
+    <li class="t-small mute border-t border-(--g-rule) py-3">
+      The carbon offset is inside every price on this table.
+    </li>
+  </ul>
+
+  <div class="mt-4 flex flex-wrap gap-2">
+    <Button href="#waitlist">Join the waitlist</Button>
+  </div>
+</Section>

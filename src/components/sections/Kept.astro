@@ -1,0 +1,117 @@
+---
+import { RiCheckLine, RiTimeLine } from "@remixicon/react"
+
+import Section from "@/components/brand/Section.astro"
+
+// PAPER, deliberately: the state colours are measured against paper — live
+// 4.80:1, caution 4.71:1 — and green-700 on VOID is 3.03:1, which no amount of
+// taste fixes. A table that has to be readable is a paper table.
+//
+// Every state tag carries a colour, an icon and a word, because colour is never
+// the only carrier of meaning (DESIGN.md §Do's and Don'ts).
+//
+// The verdict is the second column, not the last. Three columns need the system's
+// scroller on a phone, and the answer has to be the part that is already on
+// screen — the detail is what the reader scrolls for. The scroll floor is raised
+// above `.spec-wide`'s 34rem for the same reason: at 34rem the third column is
+// narrow enough to wrap four deep, and the rows tower over their own contents.
+const rows = [
+  {
+    what: "Message and reply",
+    where: "To the model provider, only far enough to compute the answer",
+    verdict: "Not stored",
+  },
+  {
+    what: "Training",
+    where: "Never. Not by Obliv1a, and not by the provider under its contract",
+    verdict: "Never",
+  },
+  {
+    what: "A saved conversation",
+    where: "Hardware Obliv1a owns, so you can come back to it",
+    state: "yours",
+    verdict: "Until you delete it",
+  },
+  {
+    what: "A deleted conversation",
+    where: "Removed. There was no second copy to remove",
+    verdict: "Gone",
+  },
+  {
+    what: "Advertisers",
+    where: "Nothing about you is sold, shared or brokered",
+    verdict: "Never",
+  },
+  {
+    what: "A closed account",
+    where: "Removed, with everything saved inside it",
+    verdict: "Gone",
+  },
+]
+---
+
+<Section id="kept" width="wide" class="pt-14 pb-12 md:pt-24 md:pb-16">
+  <div class="flex flex-col gap-3">
+    <p class="t-label mute">What's kept</p>
+    <h2 class="t-h2">The whole list, including the parts we keep.</h2>
+    <p class="t-lead">
+      "We take your privacy seriously" is not a claim anyone can check. This is
+      the entire inventory: what leaves your screen, where it goes, and whether
+      anything is left behind.
+    </p>
+  </div>
+
+  <div class="scroll-x mt-4">
+    <table class="spec spec-wide min-w-[46rem]">
+      <thead>
+        <tr>
+          <th scope="col" class="w-[22%]">What</th>
+          <th scope="col" class="w-[18%]">Kept?</th>
+          <th scope="col" class="w-[60%]">Where it goes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row) => (
+            <tr>
+              <td>{row.what}</td>
+              <td class="whitespace-nowrap">
+                {row.state === "yours" ? (
+                  <span class="tag text-caution">
+                    <RiTimeLine size={12} aria-hidden="true" />
+                    {row.verdict}
+                  </span>
+                ) : (
+                  <span class="tag text-live">
+                    <RiCheckLine size={12} aria-hidden="true" />
+                    {row.verdict}
+                  </span>
+                )}
+              </td>
+              <td>{row.where}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cols cols-2 mt-4">
+    <div class="flex flex-col gap-2 border-t border-(--g-rule-firm) pt-4">
+      <p class="t-h3">You can take it with you.</p>
+      <p class="t-small mute">
+        Everything you have saved can be downloaded from inside the app,
+        whenever you want, without asking anyone. If the service ever ends there
+        will be a window to do it before anything goes away.
+      </p>
+    </div>
+    <div class="flex flex-col gap-2 border-t border-(--g-rule-firm) pt-4">
+      <p class="t-h3">One honest exception.</p>
+      <p class="t-small mute">
+        The administrator holds the account controls and can technically reach
+        an account to fix something in it. This will only ever be done when specifically
+        requested.
+      </p>
+    </div>
+  </div>
+</Section>

@@ -1,0 +1,42 @@
+---
+import { RiAlertLine } from "@remixicon/react"
+
+import Section from "@/components/brand/Section.astro"
+import { OFFSET_PARTNER_URL } from "@/lib/links"
+
+// PRODUCT.md: anything standing in for evidence that does not exist yet ships
+// clearly labelled. The offset partner has not been named, so the line that
+// would name them carries a caution tag saying exactly that rather than a
+// plausible-looking logo.
+---
+
+<Section id="carbon" class="pt-14 pb-12 md:pt-24 md:pb-16">
+  <p class="t-label mute">Carbon</p>
+  <h2 class="t-h2">
+    The power it burns is offset, and it is already paid for.
+  </h2>
+  <p class="t-lead">
+    An AI answer costs real electricity, a great deal more than almost anything
+    else your computer does in a day. The carbon that usage produces is offset,
+    and the cost of doing that sits inside the prices above.
+  </p>
+  <p class="t-body mute">
+    One person's share of this is small. So is one person's recycling. It counts
+    for the same reason.
+  </p>
+
+  <div class="mt-2 flex flex-col gap-2 border-t border-(--g-rule-firm) pt-4">
+    <span class="tag w-fit text-caution">
+      <RiAlertLine size={12} aria-hidden="true" />
+      Placeholder · partner not named
+    </span>
+    <p class="t-small mute">
+      The organization retiring the offsets is not named on this page yet. When
+      it is, it will be linked{" "}
+      <a
+        class="text-(--signal-here) underline decoration-1 underline-offset-4"
+        href={OFFSET_PARTNER_URL}>here</a
+      >, so the claim can be read rather than trusted.
+    </p>
+  </div>
+</Section>

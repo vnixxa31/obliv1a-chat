@@ -1,15 +1,41 @@
 ---
-import Erasure from "@/components/sections/Erasure.astro"
-import Grounds from "@/components/sections/Grounds.astro"
-import Opening from "@/components/sections/Opening.astro"
+import Carbon from "@/components/sections/Carbon.astro"
+import Footer from "@/components/sections/Footer.astro"
+import Hero from "@/components/sections/Hero.astro"
+import Kept from "@/components/sections/Kept.astro"
+import Limits from "@/components/sections/Limits.astro"
+import Nav from "@/components/sections/Nav.astro"
+import Path from "@/components/sections/Path.astro"
+import Plans from "@/components/sections/Plans.astro"
+import Runner from "@/components/sections/Runner.astro"
+import Waitlist from "@/components/sections/Waitlist.astro"
+import WhatItIs from "@/components/sections/WhatItIs.astro"
 import Layout from "@/layouts/main.astro"
+
+// The grounds run PAPER · FIELD · VOID · PAPER · FIELD · PAPER · VOID, so colour
+// carries roughly 45% of the page and paper is the connective document ground
+// between the arguments. Every band is full-bleed and interrupted only by the
+// frame (DESIGN.md §Layout).
+//
+// The page ships zero JavaScript: no section takes a client:* directive, and the
+// React components render to static HTML. Worth keeping.
 ---
 
 <Layout
-  title="Obliv1a — Software built to forget you."
-  description="The Obliv1a identity system, installed: the ground contract, the erasure, and shadcn components restyled to read both."
+  title="Obliv1a Chat — nobody is learning from your chats."
+  description="A hosted AI chat that keeps nothing it does not have to. The model provider is contractually barred from storing your messages or training on them, the software is open source, and the conversations you keep live on hardware one person owns."
 >
-  <Opening />
-  <Grounds />
-  <Erasure />
+  <Nav />
+  <main id="main">
+    <Hero />
+    <WhatItIs />
+    <Path />
+    <Kept />
+    <Plans />
+    <Runner />
+    <Carbon />
+    <Limits />
+    <Waitlist />
+  </main>
+  <Footer />
 </Layout>

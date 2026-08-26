@@ -1,0 +1,61 @@
+---
+import Section from "@/components/brand/Section.astro"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { SOURCE_URL } from "@/lib/links"
+
+// PAPER is the default ground, so nothing here declares one — :root already
+// carries the paper contract.
+//
+// The right-hand column is a spec table rather than a stack of feature cards.
+// Mono is the system's voice for measurement, and a ruled table of five plain
+// facts answers "what is this and what will it cost me" before the reader has
+// scrolled — without any of it being a card (DESIGN.md §Components, §Layout).
+const facts = [
+  ["Status", "Waitlist"],
+  ["To try it", "Free, no card"],
+  ["To install", "Nothing"],
+  ["Works on", "Any modern browser"],
+]
+---
+
+<Section id="top" width="wide" class="py-14 md:py-24">
+  <div class="cols cols-side">
+    <div class="flex flex-col gap-6">
+      <p class="t-label mute">Obliv1a Chat · joining by waitlist</p>
+      <h1 class="t-display">Nobody is learning from your chats.</h1>
+      <p class="t-lead">
+        Obliv1a Chat is an AI assistant you open in a browser. The provider that
+        runs the model is contractually barred from storing what you type or
+        training on it. The conversations you keep sit on one machine, owned by
+        one person.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <Button href="#waitlist">Join the waitlist</Button>
+        <Button href={SOURCE_URL} variant="ghost">Read the source</Button>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <Badge variant="solid">Zero retention</Badge>
+        <Badge>Open source</Badge>
+        <Badge>Free tier</Badge>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <p class="t-label mute">At a glance</p>
+      <table class="spec">
+        <caption class="sr-only">Obliv1a Chat at a glance</caption>
+        <tbody>
+          {
+            facts.map(([term, value]) => (
+              <tr>
+                <td>{term}</td>
+                <td class="num">{value}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</Section>

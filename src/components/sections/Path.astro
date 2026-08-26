@@ -1,0 +1,59 @@
+---
+import Section from "@/components/brand/Section.astro"
+import { PROVIDER_NAME, PROVIDER_TRUST_URL } from "@/lib/links"
+
+// VOID, and the page's one erasure. `.erase` is the mark's seven slots as a CSS
+// mask and belongs where something is ending — here, at the end of the trail a
+// message leaves. Two on a page cancel each other and read as texture, so this
+// is the only one on the site (DESIGN.md §Shapes).
+//
+// Inline links take `--signal-here`, which the ground contract resolves to
+// fuchsia-400 on VOID (6.19:1) and fuchsia-600 on PAPER. Never hard-code either.
+const steps = [
+  {
+    n: "01",
+    title: "You type it.",
+    body: "In a browser tab, on whatever device is nearest. There is no client to install or key to hold on to.",
+  },
+  {
+    n: "02",
+    title: "The model reads it, answers, and lets it go.",
+    body: "Obliv1a rents the computation from a provider under a zero-retention contract. They see the message for as long as it takes to answer it. They are not permitted to store it, and they are not permitted to train on it.",
+  },
+  {
+    n: "03",
+    title: "The conversation comes back to one machine.",
+    body: "If you keep it, it is saved so you can find it again — on hardware Obliv1a owns, not in an account with a cloud company. Delete it and it is gone.",
+  },
+]
+---
+
+<Section ground="void" id="path" class="py-14 md:py-24">
+  <p class="t-label text-signal">Where it goes</p>
+  <h2 class="t-h2 erase">Where your words stop.</h2>
+
+  <ol class="mt-4 border-t border-(--g-rule)">
+    {
+      steps.map((step) => (
+        <li class="cols cols-index gap-y-3 border-b border-(--g-rule) py-6">
+          <p class="t-label text-signal">
+            {step.n} <span class="mute">/ Step</span>
+          </p>
+          <div class="flex flex-col gap-2">
+            <p class="t-h3">{step.title}</p>
+            <p class="t-body mute">{step.body}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class="t-small mute">
+    The provider is {PROVIDER_NAME}, and their retention terms are published:{" "}
+    <a
+      class="text-(--signal-here) underline decoration-1 underline-offset-4"
+      href={PROVIDER_TRUST_URL}
+      rel="noreferrer">trust.novita.ai</a
+    >.
+  </p>
+</Section>

@@ -1,0 +1,53 @@
+---
+import Section from "@/components/brand/Section.astro"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { WAITLIST_ACTION } from "@/lib/links"
+
+// VOID, and the page's grain. The grain is halftone reproduction dissolving —
+// the only texture in the system, and the closing surface is where it belongs.
+// The erasure is spent on §Path; this surface gets the other material, not a
+// second cut (DESIGN.md §Shapes).
+//
+// The form posts to WAITLIST_ACTION, which is a documented placeholder: there is
+// no endpoint yet. Wire it before launch — see src/lib/links.ts.
+---
+
+<Section
+  ground="void"
+  id="waitlist"
+  class="grain py-16 md:py-28"
+  style="--grain-c:var(--rule-void-firm);--grain-o:.16"
+>
+  <p class="t-label text-signal">Joining</p>
+  <h2 class="t-plate proportional-nums">
+    Obliv1a Chat opens by invitation for now.
+  </h2>
+  <p class="t-lead mute">
+    There is one machine behind this, and adding users is done individually, by hand. Leave
+    an address and you will hear when Obliv1a Chat is ready for you.
+  </p>
+
+  <form class="mt-4 flex flex-col gap-3" action={WAITLIST_ACTION} method="post">
+    <div class="flex flex-col gap-2">
+      <Label htmlFor="waitlist-email">Email address</Label>
+      <div class="flex flex-col gap-2 sm:flex-row">
+        <Input
+          id="waitlist-email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          placeholder="you@somewhere.else"
+          className="sm:flex-1"
+        />
+        <Button type="submit">Join the waitlist</Button>
+      </div>
+    </div>
+    <p class="t-small mute">
+      Used to create an account and send an invitation. Free to try when it
+      arrives, no card necessary.
+    </p>
+  </form>
+</Section>

@@ -1,0 +1,59 @@
+---
+import Mark from "@/components/brand/Mark.astro"
+import {
+  PRIVACY_URL,
+  PROVIDER_NAME,
+  PROVIDER_TRUST_URL,
+  SOURCE_URL,
+  TERMS_URL,
+} from "@/lib/links"
+
+// The page closes on VOID, the ground beneath everything and the colour of the
+// frame, so the last band and the border that holds the viewport are the same
+// violet. <footer> is a landmark and must not be nested inside a <section>, so
+// this one carries <Section>'s full-bleed mechanics itself rather than using it.
+const links = [
+  { href: SOURCE_URL, label: "Source" },
+  { href: TERMS_URL, label: "Terms" },
+  { href: PRIVACY_URL, label: "Privacy" },
+]
+---
+
+<footer
+  class="on-void -mx-(--frame) border-t border-(--g-rule) px-(--frame) py-10"
+>
+  <div class="wrap flex flex-col gap-8">
+    <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-6">
+      <Mark name="lockup-v" label="Obliv1a" class="w-[168px]" />
+      <nav aria-label="Site">
+        <ul class="flex flex-wrap items-center gap-x-6 gap-y-2">
+          {
+            links.map((link) => (
+              <li>
+                <a class="t-label hover:text-signal" href={link.href}>
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <div class="cols cols-2 border-t border-(--g-rule) pt-6">
+      <p class="t-small mute">
+        Obliv1a Chat is a product of Obliv1a. The software is open source and
+        the service is hosted on hardware Obliv1a owns.
+      </p>
+      <p class="t-small mute">
+        Model computation is provided by {PROVIDER_NAME} under a zero-retention contract.
+        Their terms are published at{" "}
+        <a
+          class="text-(--signal-here) underline decoration-1 underline-offset-4"
+          href={PROVIDER_TRUST_URL}
+          rel="noreferrer">trust.novita.ai</a
+        >.
+      </p>
+    </div>
+  </div>
+</footer>
