@@ -77,4 +77,17 @@
     .on-field {
         --btn-fg-hover: var(--on-void);
     }
+
+    /* The masthead sticks, so an in-page anchor now lands underneath it.
+       obliv1a.css sets `:target { scroll-margin-top: var(--s8) }` — the right
+       amount of air above a target on a page with nothing pinned over it, and
+       not enough here. The header is one row of the label voice inside `py-5`
+       (~77px) but wraps to two below the `sm` breakpoint, where the page nav
+       drops out and the lockup and the button stop fitting on one line, so the
+       offset is set from the space scale at a height that clears either: --s10
+       plus the frame the header rests against. Declared here and not in brand/
+       because it is this page's masthead, not a property of the system. */
+    :target {
+        scroll-margin-top: calc(var(--frame) + var(--s10));
+    }
 }
