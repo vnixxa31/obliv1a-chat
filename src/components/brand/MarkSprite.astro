@@ -1,0 +1,12 @@
+---
+// The mark sprite, inlined as the first element in <body> on every page that
+// shows a mark. This is the only mark mechanism the system has: a cross-file
+// <use href="file.svg#id"> cannot inherit currentColor, and mask-image on an
+// external SVG is not dependable across engines. Both were tried; both failed.
+//
+// Imported from obliv1a-brand/ rather than copied, so the geometry rendered here
+// is whatever brand/marks/_build.py last emitted.
+import sprite from "../../../obliv1a-brand/brand/marks/_sprite.svg?raw"
+---
+
+<Fragment set:html={sprite} />

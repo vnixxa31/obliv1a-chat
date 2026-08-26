@@ -1,0 +1,15 @@
+---
+// The viewport frame: a 10px VOID border holding every Obliv1a surface. It is
+// the outermost mark of the system, and the only thing that interrupts a
+// full-bleed colour region (DESIGN.md §Layout). Fixed rather than a body border
+// so the colour regions run under it as the page scrolls.
+//
+// Pairs with `p-(--frame)` on <body> and the negative inline margin on
+// <Section>, which together let a section reach the frame on both sides.
+---
+
+<div
+  class="pointer-events-none fixed inset-0 z-50 border-[length:var(--frame)] border-void"
+  aria-hidden="true"
+>
+</div>

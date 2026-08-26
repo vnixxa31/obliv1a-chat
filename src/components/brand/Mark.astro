@@ -1,0 +1,39 @@
+---
+import type { HTMLAttributes } from "astro/types"
+
+import { cn } from "@/lib/utils"
+
+// A mark is a <use> reference into the inlined sprite, so it carries no fill or
+// stroke of its own and inherits currentColor from the ground it sits on.
+//
+// Each symbol is listed with the aspect ratio of its own viewBox: the outer
+// <svg> has none, so without it the element falls back to the 2:1 default and
+// letterboxes the mark inside a box twice the height it needs.
+//
+// Below a 24px cap height the slots silt up — use the solid or favicon variant.
+const marks = {
+  wordmark: "aspect-[204.94/48]",
+  "wordmark-small": "aspect-[204.94/48]",
+  mark: "aspect-square",
+  plaque: "aspect-square",
+  "lockup-h": "aspect-[272.94/48]",
+  "lockup-v": "aspect-[204.94/130]",
+} as const
+
+interface Props extends HTMLAttributes<"svg"> {
+  name: keyof typeof marks
+  /** Accessible name. Leave unset where the mark sits beside its own words. */
+  label?: string
+}
+
+const { name, label, class: className, ...rest } = Astro.props
+---
+
+<svg
+  class={cn("block h-auto", marks[name], className)}
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  focusable="false"
+  {...rest}><use href={`#o1-${name}`}></use></svg
+>

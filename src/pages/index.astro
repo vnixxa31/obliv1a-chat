@@ -1,17 +1,15 @@
 ---
+import Erasure from "@/components/sections/Erasure.astro"
+import Grounds from "@/components/sections/Grounds.astro"
+import Opening from "@/components/sections/Opening.astro"
 import Layout from "@/layouts/main.astro"
-import { Button } from "@/components/ui/button"
 ---
 
-<Layout>
-  <div class="flex min-h-svh p-6">
-    <div class="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-      <div>
-        <h1 class="font-medium">Project ready!</h1>
-        <p>You may now add components and start building.</p>
-        <p>We've already added the button component for you.</p>
-        <Button client:load className="mt-2">Button</Button>
-      </div>
-    </div>
-  </div>
+<Layout
+  title="Obliv1a — Software built to forget you."
+  description="The Obliv1a identity system, installed: the ground contract, the erasure, and shadcn components restyled to read both."
+>
+  <Opening />
+  <Grounds />
+  <Erasure />
 </Layout>

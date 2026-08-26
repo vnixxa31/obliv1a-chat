@@ -1,0 +1,36 @@
+---
+import type { HTMLAttributes } from "astro/types"
+
+import { cn } from "@/lib/utils"
+
+// A ground is a contract, not a background colour: committing the region
+// re-declares every variable the controls inside it read, so they invert by
+// themselves and grounds nest correctly (DESIGN.md §Colors).
+//
+// The band is full-bleed — a colour region runs edge to edge and is interrupted
+// by the frame, never by a margin. A panel floating in a page with air around it
+// is a card, and there are no cards.
+//
+// Inside, `.wrap-tight` is the system's own 980px measure. Re-deriving it in
+// arbitrary values would give the same number two sources of truth.
+const grounds = {
+  paper: "on-paper",
+  field: "on-field",
+  void: "on-void",
+} as const
+
+interface Props extends HTMLAttributes<"section"> {
+  ground?: keyof typeof grounds
+}
+
+const { ground = "paper", class: className, ...rest } = Astro.props
+---
+
+<section
+  class={cn(grounds[ground], "-mx-(--frame) px-(--frame) py-12", className)}
+  {...rest}
+>
+  <div class="wrap-tight flex flex-col gap-4">
+    <slot />
+  </div>
+</section>

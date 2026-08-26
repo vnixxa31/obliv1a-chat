@@ -1,15 +1,32 @@
 ---
 import "@/styles/global.css"
+
+import Frame from "@/components/brand/Frame.astro"
+import MarkSprite from "@/components/brand/MarkSprite.astro"
+
+// The shell of every Obliv1a surface: the mark sprite first in <body>, then the
+// frame. The frame is 10px of VOID and the body is inset by exactly that, so a
+// <Section> can reach back out with a negative inline margin and stay full-bleed.
+
+interface Props {
+  title: string
+  description?: string
+}
+
+const { title, description } = Astro.props
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Astro App</title>
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
   </head>
-  <body>
+  <body class="p-(--frame)">
+    <MarkSprite />
+    <Frame />
     <slot />
   </body>
 </html>

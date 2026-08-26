@@ -1,130 +1,80 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
+/* ===========================================================================
+   OBLIV1A CHAT — entry stylesheet.
 
+   Import order is load-bearing:
+
+   1. Tailwind, plus the shadcn variants its components compile against.
+   2. brand/theme.css — the palette, the four typefaces and the radius-0 rule
+      re-exported as Tailwind theme tokens (bg-field, text-on-void-2, font-plate).
+   3. brand/obliv1a.css — everything the system needs that is not utility-shaped:
+      @font-face, the ground contract, the type voices, .erase, .grain, focus.
+
+   Both brand files are imported from obliv1a-brand/ rather than copied in, so
+   the palette this app renders is the same file `verify-contrast.mjs` audits.
+   obliv1a.css lands in the `base` layer on purpose: unlayered CSS outranks
+   every Tailwind layer, so left unlayered its reset would beat the utilities
+   composed on top of it (a `<a>` could never take a text colour). In `base` it
+   sits above Tailwind's preflight and below the utilities, which is the job.
+   =========================================================================== */
+
+@import "tailwindcss";
+@import "shadcn/tailwind.css";
+@import "tw-animate-css";
+@import "../../obliv1a-brand/brand/theme.css";
+@import "../../obliv1a-brand/brand/obliv1a.css" layer(base);
+
+/* The system has grounds, not themes. Pinning `dark` to a class that is never
+   set keeps any stock shadcn `dark:` utility inert rather than letting it fire
+   on the visitor's OS preference. */
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Inter Variable', sans-serif;
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
-}
+    /* shadcn's semantic tokens, bound to the ground contract rather than to a
+       palette. `inline` keeps them as var() references, so a component resolves
+       them against the nearest .on-paper / .on-field / .on-void and inverts by
+       itself — no component is ever restyled to suit its background. */
+    --color-background: var(--g-bg);
+    --color-foreground: var(--g-fg);
+    --color-muted: var(--g-recess);
+    --color-muted-foreground: var(--g-fg-2);
+    --color-accent: var(--g-recess);
+    --color-accent-foreground: var(--g-fg);
+    --color-secondary: var(--g-recess);
+    --color-secondary-foreground: var(--g-fg);
+    --color-primary: var(--btn-bg);
+    --color-primary-foreground: var(--btn-fg);
+    --color-border: var(--g-rule);
+    --color-input: var(--inp-bd);
+    --color-ring: var(--focus);
+    --color-destructive: var(--danger);
 
-:root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
-}
+    /* theme.css pins sm–xl; these are the tokens Tailwind v4 adds on top of
+       that list. Every corner in this system is square — see DESIGN.md §Shapes.
+       `rounded-full` is left alone: it is the one exception, a toggle handle. */
+    --radius-xs: 0px;
+    --radius-2xl: 0px;
+    --radius-3xl: 0px;
+    --radius-4xl: 0px;
 
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    /* The label voice's tracking, present in brand/tailwind.config.js but not
+       in theme.css. Buttons, tags and labels all set type at +0.14em. */
+    --tracking-label: 0.14em;
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    /* The one gap in the ground contract. obliv1a.css keeps `--btn-fg` as the
+       primary button's label colour on hover, but the hover fill is always the
+       ground *below* the current one. On FIELD that lands violet-700 on
+       violet-950 — 2.14:1, the pairing DESIGN.md names as forbidden outright.
+       Declared here rather than in brand/obliv1a.css so the vendored system
+       stays byte-identical to the file verify-contrast.mjs audits. */
+    :root,
+    .on-paper,
+    .on-void {
+        --btn-fg-hover: var(--btn-fg);
     }
-  body {
-    @apply bg-background text-foreground;
-    }
-  html {
-    @apply font-sans;
+
+    .on-field {
+        --btn-fg-hover: var(--on-void);
     }
 }

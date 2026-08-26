@@ -1,0 +1,29 @@
+---
+import Mark from "@/components/brand/Mark.astro"
+import Section from "@/components/brand/Section.astro"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+// Not one component below is restyled for this ground. `.on-field` re-declares
+// the variables they already read, and they invert on their own.
+---
+
+<Section ground="field">
+  <Mark name="mark" class="w-11" />
+  <h2 class="t-h2">The same controls, one ground down.</h2>
+  <p>
+    No component was touched. <code class="t-mono">.on-field</code> re-declares <code
+      class="t-mono">--btn-bg</code
+    >, <code class="t-mono">--inp-bd</code> and the rest, and everything inside inherits
+    them.
+  </p>
+  <div class="flex flex-wrap gap-2">
+    <Button href="#">Primary</Button>
+    <Button href="#" variant="ghost">Ghost</Button>
+  </div>
+  <Input
+    name="ground-demo"
+    aria-label="Same class. Different ground."
+    placeholder="Same class. Different ground."
+  />
+</Section>

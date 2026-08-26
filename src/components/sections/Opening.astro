@@ -1,0 +1,36 @@
+---
+import Mark from "@/components/brand/Mark.astro"
+import Section from "@/components/brand/Section.astro"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+// PAPER is the default ground, so nothing here declares one — :root already
+// carries the paper contract.
+//
+// The label and its field are wrapped a step tighter than the section's own
+// rhythm: tight inside a group, generous between groups (DESIGN.md §Layout).
+---
+
+<Section>
+  <Mark name="wordmark" label="Obliv1a" class="w-[200px] text-field" />
+  <p class="t-label mute">Starter · paper ground</p>
+  <h1 class="t-h1">Software built to forget you.</h1>
+  <p class="t-lead">
+    This page is the Obliv1a system wired into Astro: one stylesheet, one
+    inlined sprite, and shadcn components restyled to read the ground contract.
+  </p>
+  <div class="flex flex-wrap gap-2">
+    <Button href="#">Open Obliv1a Chat</Button>
+    <Button href="#" variant="ghost">Read the source</Button>
+  </div>
+  <div class="flex flex-col gap-2">
+    <Label htmlFor="ask">Ask something</Label>
+    <Input id="ask" name="ask" placeholder="Nothing typed here is kept." />
+  </div>
+  <div class="flex flex-wrap gap-2">
+    <Badge>Zero retention</Badge>
+    <Badge variant="solid">Open source</Badge>
+  </div>
+</Section>

@@ -19,4 +19,13 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // shadcn ships each component beside its cva variant map — `buttonVariants`,
+    // `badgeVariants` — and `shadcn add` re-emits that shape every time. These
+    // files are not hot-reload boundaries worth trading the registry shape for.
+    files: ["src/components/ui/**/*.{ts,tsx}"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
 ])
