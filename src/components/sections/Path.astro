@@ -1,14 +1,32 @@
 ---
+import Mark from "@/components/brand/Mark.astro"
 import Section from "@/components/brand/Section.astro"
-import { PROVIDER_NAME, PROVIDER_TRUST_URL } from "@/lib/links"
+import { Button } from "@/components/ui/button"
+import { PROVIDER_NAME, PROVIDER_TRUST_URL, SOURCE_URL } from "@/lib/links"
 
-// VOID, and the page's one erasure. `.erase` is the mark's seven slots as a CSS
-// mask and belongs where something is ending — here, at the end of the trail a
-// message leaves. Two on a page cancel each other and read as texture, so this
+// VOID, two panes: where a message goes, and who it goes to. They were separate
+// bands and are one because they are one argument — the route only means
+// anything if you know who is at the end of it, and the hosting claim is only
+// worth making because the route is short. Nothing here is a shield, a lock or
+// a padlock; the argument is erasure and ownership, not armour (DESIGN.md
+// §Do's and Don'ts).
+//
+// The panes are separated by the grid gap alone, as the hero's split is. A
+// vertical seam rule would have to be drawn at 900px — where `.cols-2` folds —
+// and Tailwind's md/lg sit either side of that, so any breakpoint utility would
+// draw the rule while the panes are still stacked or leave them unseparated
+// while they are not.
+//
+// This carries the page's one erasure. `.erase` is the mark's seven slots as a
+// CSS mask and belongs where something is ending — here, at the end of the trail
+// a message leaves. Two on a page cancel each other and read as texture, so this
 // is the only one on the site (DESIGN.md §Shapes).
 //
-// Inline links take `--signal-here`, which the ground contract resolves to
-// fuchsia-400 on VOID (6.19:1) and fuchsia-600 on PAPER. Never hard-code either.
+// `text-signal` is fuchsia-400 and measures 6.19:1 on VOID; it is the reason
+// this pairing is a dark-ground one, and it is why the merged band is not FIELD,
+// where the same colour is 2.89:1 and forbidden. Inline links take
+// `--signal-here`, which the ground contract resolves per surface. Never
+// hard-code either.
 const steps = [
   {
     n: "01",
@@ -26,34 +44,83 @@ const steps = [
     body: "If you keep it, it is saved so you can find it again — on hardware Obliv1a owns, not in an account with a cloud company. Delete it and it is gone.",
   },
 ]
+
+const notes = [
+  {
+    term: "The hardware",
+    body: "A computer in a basement, not in some datacenter. One machine, owned outright, that nobody else can reach.",
+  },
+  {
+    term: "The software",
+    body: "Open WebUI and Bifrost, both open source, plus some code written to make them play nice. All of the source code is publically available.",
+  },
+  {
+    term: "Support",
+    body: "You write to me, and I write back. No bots, queues, or useless help articles.",
+  },
+]
 ---
 
-<Section ground="void" id="path" class="py-14 md:py-24">
-  <p class="t-label text-signal">Where it goes</p>
-  <h2 class="t-h2 erase">Where your words stop.</h2>
+<Section ground="void" id="path" width="wide" class="py-14 md:py-24">
+  <div class="cols cols-2 gap-x-12">
+    <div class="flex flex-col gap-4">
+      <p class="t-label text-signal">Where it goes</p>
+      <h2 class="t-h2 erase">Where your words stop.</h2>
+      <p class="t-lead">
+        A message makes one trip. This is the whole of it — where it goes, who
+        is allowed to read it on the way, and what is left anywhere once the
+        answer comes back.
+      </p>
 
-  <ol class="mt-4 border-t border-(--g-rule)">
-    {
-      steps.map((step) => (
-        <li class="cols cols-index gap-y-3 border-b border-(--g-rule) py-6">
-          <p class="t-label text-signal">
-            {step.n} <span class="mute">/ Step</span>
-          </p>
-          <div class="flex flex-col gap-2">
-            <p class="t-h3">{step.title}</p>
-            <p class="t-body mute">{step.body}</p>
-          </div>
-        </li>
-      ))
-    }
-  </ol>
+      <ol class="border-t border-(--g-rule)">
+        {
+          steps.map((step) => (
+            <li class="flex flex-col gap-2 border-b border-(--g-rule) py-5">
+              <p class="t-label text-signal">
+                {step.n} <span class="mute">/ Step</span>
+              </p>
+              <p class="t-h3">{step.title}</p>
+              <p class="t-body mute">{step.body}</p>
+            </li>
+          ))
+        }
+      </ol>
 
-  <p class="t-small mute">
-    The provider is {PROVIDER_NAME}, and their retention terms are published:{" "}
-    <a
-      class="text-(--signal-here) underline decoration-1 underline-offset-4"
-      href={PROVIDER_TRUST_URL}
-      rel="noreferrer">trust.novita.ai</a
-    >.
-  </p>
+      <p class="t-small mute">
+        The provider is {PROVIDER_NAME}, and their retention terms are
+        published:{" "}
+        <a
+          class="text-(--signal-here) underline decoration-1 underline-offset-4"
+          href={PROVIDER_TRUST_URL}
+          rel="noreferrer">trust.novita.ai</a
+        >.
+      </p>
+    </div>
+
+    <div id="who" class="flex flex-col gap-4">
+      <Mark name="mark" class="w-11" />
+      <p class="t-label mute">Who runs it</p>
+      <h2 class="t-h2">One person runs this.</h2>
+      <p class="t-lead">
+        Not a massive corporation with a headquarters. Obliv1a is one person,
+        assembling open-source software into something an ordinary person can
+        use without becoming technical to do it. That is the whole arrangement.
+      </p>
+
+      <dl class="border-t border-(--g-rule)">
+        {
+          notes.map((note) => (
+            <div class="flex flex-col gap-2 border-b border-(--g-rule) py-5">
+              <dt class="t-label">{note.term}</dt>
+              <dd class="t-small mute">{note.body}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <div class="flex flex-wrap gap-2">
+        <Button href={SOURCE_URL} variant="ghost">Read the source</Button>
+      </div>
+    </div>
+  </div>
 </Section>
