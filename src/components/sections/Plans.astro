@@ -42,7 +42,7 @@ const plans = [
 <Section id="plans" width="tight" class="pt-12 pb-14 md:pt-16 md:pb-24">
   <div class="flex flex-col gap-3">
     <p class="t-label mute">Plans</p>
-    <h2 class="t-h2">Three plans today, with a third planned.</h2>
+    <h2 class="t-h2">Three plans today, with a third on the way.</h2>
     <p class="t-lead">
       Obliv1a Flash answers on every plan, including the free one. Paying buys
       more of it, and on Pro a second model that can also read images.
@@ -54,9 +54,8 @@ const plans = [
       <thead>
         <tr>
           <th scope="col" class="w-[20%]">Plan</th>
-          <th scope="col" class="num w-[16%]">Price</th>
-          <th scope="col" class="w-[38%]">Models</th>
-          <th scope="col" class="w-[26%]">Reads</th>
+          <th scope="col" class="w-[35%]">Models</th>
+          <th scope="col" class="num w-[15%]">Price</th>
         </tr>
       </thead>
       <tbody>
@@ -74,9 +73,8 @@ const plans = [
                   )}
                 </span>
               </td>
-              <td class="num">{plan.price}</td>
               <td>{plan.models}</td>
-              <td>{plan.images}</td>
+              <td class="num">{plan.price}</td>
             </tr>
           ))
         }
