@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-26T01:29:11Z",
+  "title": "Design System: Obliv1a",
+  "extensions": {
+    "colorMeta": {
+      "field": {
+        "role": "primary",
+        "displayName": "Field Violet",
+        "canonical": "#6D28D9",
+        "tonalRamp": [
+          "#F5F3FF",
+          "#EDE9FE",
+          "#DDD6FE",
+          "#C4B5FD",
+          "#A78BFA",
+          "#8B5CF6",
+          "#7C3AED",
+          "#6D28D9",
+          "#5B21B6",
+          "#4C1D95",
+          "#2E1065"
+        ]
+      },
+      "void": {
+        "role": "surface",
+        "displayName": "Void",
+        "canonical": "#2E1065",
+        "tonalRamp": [
+          "#4C1D95",
+          "#3B0F7A",
+          "#2E1065",
+          "#25084F"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#FAFAF9",
+        "tonalRamp": [
+          "#FAFAF9",
+          "#F5F5F4",
+          "#E7E5E4",
+          "#D6D3D1",
+          "#A8A29E",
+          "#78716C",
+          "#57534E",
+          "#1C1917"
+        ]
+      },
+      "signal": {
+        "role": "accent",
+        "displayName": "Signal Fuchsia",
+        "canonical": "#E879F9",
+        "tonalRamp": [
+          "#F0ABFC",
+          "#E879F9",
+          "#D946EF",
+          "#C026D3"
+        ],
+        "note": "Dark grounds only. 2.89:1 on FIELD \u2014 never sets type there."
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Headlines, wordmark, posters. Archivo width axis 62-88 replaces a second family."
+      },
+      "plate": {
+        "displayName": "Plate",
+        "purpose": "Statements and covers. Bodoni Moda with opsz pinned to 16 so hairlines survive a saturated ground."
+      },
+      "body": {
+        "displayName": "Text",
+        "purpose": "Body and UI, measure capped at 68ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Labels, values, measurement, chrome. Never body copy."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-obliv1a",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Hard exponential ease-out. The only easing in the system."
+      },
+      {
+        "name": "dur-control",
+        "value": "180ms",
+        "purpose": "Control feedback."
+      },
+      {
+        "name": "dur-panel",
+        "value": "240ms",
+        "purpose": "Panel or route change."
+      },
+      {
+        "name": "dur-authored",
+        "value": "680ms",
+        "purpose": "The one authored moment per surface: the mark eroding."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "760px"
+      },
+      {
+        "name": "app",
+        "value": "820px"
+      },
+      {
+        "name": "lg",
+        "value": "900px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Fills with the ground's own contrast colour. FIELD on paper, PAPER on field, SIGNAL on void.",
+      "html": "<button class=\"ds-btn\">Start talking</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:\"JetBrains Mono\",ui-monospace,monospace;font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;padding:13px 24px;border:1px solid transparent;border-radius:0;background:#6D28D9;color:#FAFAF9;cursor:pointer;transition:background .18s cubic-bezier(.16,1,.3,1),transform .18s cubic-bezier(.16,1,.3,1)}.ds-btn:hover{background:#2E1065}.ds-btn:active{transform:translateY(1px)}.ds-btn:focus-visible{outline:3px solid #C026D3;outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action. A 1px rule that inverts on hover; no fill at rest.",
+      "html": "<button class=\"ds-btn-ghost\">Read the source</button>",
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;gap:8px;font-family:\"JetBrains Mono\",ui-monospace,monospace;font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;padding:13px 24px;border:1px solid #6D28D9;border-radius:0;background:transparent;color:#6D28D9;cursor:pointer;transition:background .18s cubic-bezier(.16,1,.3,1),color .18s cubic-bezier(.16,1,.3,1)}.ds-btn-ghost:hover{background:#6D28D9;color:#FAFAF9}.ds-btn-ghost:focus-visible{outline:3px solid #C026D3;outline-offset:3px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Square, 1px rule, offset focus outline. Never a glow.",
+      "html": "<input class=\"ds-input\" placeholder=\"Say anything. It isn't kept.\">",
+      "css": ".ds-input{display:block;width:100%;padding:12px 16px;border-radius:0;background:#FAFAF9;color:#1C1917;border:1px solid #1C1917;font-family:Archivo,system-ui,sans-serif;font-size:1rem;transition:border-color .18s cubic-bezier(.16,1,.3,1),background .18s cubic-bezier(.16,1,.3,1)}.ds-input::placeholder{color:#57534E;opacity:1}.ds-input:hover{background:#F5F5F4}.ds-input:focus{outline:3px solid #C026D3;outline-offset:2px;border-color:#6D28D9}"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "1px rule in the current role colour. State tags always add an icon and a word.",
+      "html": "<span class=\"ds-tag\">MIT</span>",
+      "css": ".ds-tag{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;font-family:\"JetBrains Mono\",ui-monospace,monospace;font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;border:1px solid currentColor;border-radius:0;color:#6D28D9}"
+    },
+    {
+      "name": "Solid Tag",
+      "kind": "chip",
+      "refersTo": "tag-solid",
+      "description": "The inverted tag, for the single most important label on a surface.",
+      "html": "<span class=\"ds-tag-solid\">Open source</span>",
+      "css": ".ds-tag-solid{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;font-family:\"JetBrains Mono\",ui-monospace,monospace;font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;border:1px solid #6D28D9;border-radius:0;background:#6D28D9;color:#FAFAF9}"
+    },
+    {
+      "name": "Erasure Field",
+      "kind": "custom",
+      "refersTo": "erase",
+      "description": "The signature material: the mark's seven slots as a CSS mask. One per surface, where something ends.",
+      "html": "<div class=\"ds-erase\"></div>",
+      "css": ".ds-erase{height:140px;background:#6D28D9;-webkit-mask-image:linear-gradient(to bottom,#000 0 45.9%,transparent 45.9% 47.7%,#000 47.7% 54.1%,transparent 54.1% 56.4%,#000 56.4% 61.9%,transparent 61.9% 65.1%,#000 65.1% 69.8%,transparent 69.8% 73.8%,#000 73.8% 77.6%,transparent 77.6% 82.6%,#000 82.6% 85.5%,transparent 85.5% 91.3%,#000 91.3% 93.3%,transparent 93.3% 98.8%,#000 98.8% 100%);mask-image:linear-gradient(to bottom,#000 0 45.9%,transparent 45.9% 47.7%,#000 47.7% 54.1%,transparent 54.1% 56.4%,#000 56.4% 61.9%,transparent 61.9% 65.1%,#000 65.1% 69.8%,transparent 69.8% 73.8%,#000 73.8% 77.6%,transparent 77.6% 82.6%,#000 82.6% 85.5%,transparent 85.5% 91.3%,#000 91.3% 93.3%,transparent 93.3% 98.8%,#000 98.8% 100%)}"
+    },
+    {
+      "name": "Halftone Grain",
+      "kind": "custom",
+      "refersTo": "grain",
+      "description": "The only texture. Two offset dot grids under a falloff mask; from print reproduction.",
+      "html": "<div class=\"ds-grain\"></div>",
+      "css": ".ds-grain{position:relative;height:180px;background:#2E1065}.ds-grain::after{content:\"\";position:absolute;inset:0;background-image:radial-gradient(circle at 50% 50%,#8B5CF6 0 1.5px,transparent 1.6px),radial-gradient(circle at 50% 50%,#8B5CF6 0 .9px,transparent 1px);background-size:8px 8px,8px 8px;background-position:0 0,4px 4px;opacity:.6;-webkit-mask-image:linear-gradient(to bottom,#000,transparent);mask-image:linear-gradient(to bottom,#000,transparent)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Erasure, not armour",
+    "overview": "Obliv1a hosts open-source software for people who want out of Big Tech and have no intention of becoming technical to get there. It keeps nothing: no logs, no training on user conversations, no account trail. The identity is built on that absence.\n\nThe category default for a privacy brand is the vault \u2014 a shield, a lock, a keyhole, armour drawn around something still being kept. This system refuses it. Nothing is kept, so nothing needs guarding. The mark is the numeral 1 from the name, holding its full cap height while seven slots cut through its stem, thickening downward as the bands between them thin. The shape survives; the contents do not.\n\nEverything else follows from that drawing: the erasure as a reusable mask, imagery screened to a dissolving halftone, square unshadowed full-bleed surfaces, and a 10px VOID frame on every viewport.",
+    "keyCharacteristics": [
+      "Erasure rather than protection \u2014 no shields, locks or keyholes anywhere in the system",
+      "Committed colour: a surface is FIELD, VOID or PAPER end to end, never a tinted wash",
+      "Every colour is a stock Tailwind value, re-exported under a role name",
+      "Zero radius and zero shadows; elevation is a 1px rule declared once per surface",
+      "Grounds are an inherited variable contract, so they nest correctly",
+      "One authored motion moment per surface, and the resting state is always the finished state"
+    ],
+    "rules": [
+      {
+        "name": "The Ground Contract",
+        "section": "colors",
+        "body": "Never style a component by descendant selector from a ground. .on-paper, .on-field and .on-void each re-declare every variable the components read, so a PAPER panel inside a VOID section gets PAPER controls."
+      },
+      {
+        "name": "Signal Is A Dark-Ground Colour",
+        "section": "colors",
+        "body": "Fuchsia measures 2.89:1 on FIELD. It may fill a control on VOID and set type on PAPER as signal-ink, but it never sets type on the field, at any size."
+      },
+      {
+        "name": "One Erasure Per Surface",
+        "section": "elevation",
+        "body": "The erasure is a full stop. Two on one screen cancel each other and read as texture rather than argument."
+      },
+      {
+        "name": "Pin The Optical Size",
+        "section": "typography",
+        "body": "Bodoni Moda is a Didone. Left at its default opsz its hairlines disappear on a saturated ground; pin opsz to 16 and raise it only above roughly 72px."
+      },
+      {
+        "name": "The Mark Ships From The Sprite",
+        "section": "elevation",
+        "body": "CSS mask-image on an external SVG is not dependable across engines and cannot inherit currentColor. Every in-page mark is a <use> of the inline sprite; brand/marks/_build.py is the source of truth for the geometry."
+      },
+      {
+        "name": "Below 24px The Slots Silt Up",
+        "section": "typography",
+        "body": "The erased mark holds down to a 24px cap height. Below that ship the solid numeral. The system drops its signature material completely rather than halfway."
+      }
+    ],
+    "dos": [
+      "Do commit a whole region to FIELD, VOID or PAPER and let the frame interrupt it",
+      "Do set marks from the sprite and let them inherit currentColor",
+      "Do reach for .erase exactly once per surface, where something is ending",
+      "Do pair every state colour with a word and an icon",
+      "Do run brand/verify-contrast.mjs after any palette edit",
+      "Do name new products with a plain descriptive suffix and inherit this system unchanged"
+    ],
+    "donts": [
+      "Don't add a shadow, gradient, glow or corner radius",
+      "Don't set type in signal on the FIELD, at any size",
+      "Don't rotate, mirror, outline, stretch or re-space the mark, or put it in a circle",
+      "Don't ship the erased mark below a 24px cap height",
+      "Don't use full-colour photography or a card grid as page structure",
+      "Don't draw a vault: no shields, locks, keyholes or padlocks",
+      "Don't recruit the reader into fear \u2014 the audience is anxious already"
+    ]
+  }
+}

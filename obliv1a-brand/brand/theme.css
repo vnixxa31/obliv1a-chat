@@ -1,0 +1,56 @@
+/* ===========================================================================
+   OBLIV1A — Tailwind CSS v4 theme.
+   Drop into your entry stylesheet after `@import "tailwindcss";`.
+   Every value is a stock Tailwind palette colour, re-exported under a role
+   name so product code never hard-codes a scale step.
+       bg-field  text-on-field  border-rule-field  font-display  ...
+   =========================================================================== */
+@theme {
+  /* GROUND */
+  --color-paper:      #FAFAF9;  /* stone-50   */
+  --color-paper-2:    #F5F5F4;  /* stone-100  */
+  --color-paper-3:    #E7E5E4;  /* stone-200  */
+  --color-field:      #6D28D9;  /* violet-700 */
+  --color-field-deep: #5B21B6;  /* violet-800 */
+  --color-void:       #2E1065;  /* violet-950 */
+
+  /* INK */
+  --color-ink:        #1C1917;  /* stone-900  */
+  --color-ink-mute:   #57534E;  /* stone-600  */
+  --color-on-field:   #FAFAF9;  /* stone-50   */
+  --color-on-field-2: #DDD6FE;  /* violet-200 */
+  --color-on-void:    #FAFAF9;  /* stone-50   */
+  --color-on-void-2:  #C4B5FD;  /* violet-300 */
+
+  /* SIGNAL — fuchsia is a dark-ground colour. Never sets type on FIELD. */
+  --color-signal:     #E879F9;  /* fuchsia-400, on VOID  */
+  --color-signal-ink: #C026D3;  /* fuchsia-600, on PAPER */
+
+  /* LINE */
+  --color-rule-paper:      #D6D3D1;  /* stone-300  */
+  --color-rule-paper-firm: #1C1917;  /* stone-900  */
+  --color-rule-field:      #8B5CF6;  /* violet-500 */
+  --color-rule-field-firm: #DDD6FE;  /* violet-200 */
+  --color-rule-void:       #5B21B6;  /* violet-800 */
+  --color-rule-void-firm:  #8B5CF6;  /* violet-500 */
+
+  /* STATE */
+  --color-danger:  #BE123C;  /* rose-700   */
+  --color-caution: #A16207;  /* yellow-700 */
+  --color-live:    #15803D;  /* green-700  */
+
+  /* TYPE */
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-plate:   "Bodoni Moda", ui-serif, Georgia, serif;
+  --font-sans:    "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* RADIUS — the system is square. This is a decision, not an oversight. */
+  --radius-none: 0px;
+  --radius-sm:   0px;
+  --radius-md:   0px;
+  --radius-lg:   0px;
+  --radius-xl:   0px;
+
+  --ease-obliv1a: cubic-bezier(0.16, 1, 0.3, 1);
+}

@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Obliv1a — Identity System</title>
+<meta name="description" content="The Obliv1a identity system: mark, wordmark, colour, typography, materials, components and voice. v1.0.">
+<link rel="icon" href="brand/marks/obliv1a-favicon.svg">
+<link rel="stylesheet" href="brand/obliv1a.css">
+<style>
+/* ---------------------------------------------------------------------------
+   Document styles for the identity system itself. The shipped system lives in
+   brand/obliv1a.css; everything below only presents it.
+   --------------------------------------------------------------------------- */
+html{scroll-behavior:smooth}
+body{padding:var(--frame)}
+
+/* the frame — the system's outermost mark, on every Obliv1a surface */
+.frame{position:fixed;inset:0;border:var(--frame) solid var(--void);
+  pointer-events:none;z-index:60}
+
+/* ---- index bar ---------------------------------------------------------
+   Sticky, carries its own VOID ground so it stays legible over every section,
+   and sits inside the frame rather than over the content.                  */
+.index{position:sticky;top:0;z-index:50;background:var(--void);color:var(--on-void);
+  border-bottom:1px solid var(--rule-void-firm)}
+.index-in{display:flex;align-items:center;gap:var(--s4);height:38px;
+  padding-inline:var(--s3)}
+.index-here{font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;white-space:nowrap;flex:none}
+.index-here b{font-weight:700}
+.index-here span{opacity:.62}
+.index-nums{display:flex;gap:0;margin-left:auto;overflow-x:auto;
+  scrollbar-width:none;-ms-overflow-style:none}
+.index-nums::-webkit-scrollbar{display:none}
+.index-nums a{font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  text-decoration:none;padding:4px 7px;color:var(--on-void-2);
+  transition:color .18s var(--ease),background .18s var(--ease)}
+.index-nums a:hover{color:var(--void);background:var(--on-void-2)}
+.index-nums a[aria-current=true]{color:var(--void);background:var(--signal)}
+@media(max-width:700px){.index-here{display:none}}
+
+/* ---- section scaffolding ---------------------------------------------- */
+.sec{padding:var(--s9) 0;scroll-margin-top:0}
+.sec-tight{padding:var(--s8) 0}
+.bleed{margin-inline:calc(var(--frame) * -1);padding-inline:var(--frame)}
+/* Section marker: number + name. These are wayfinding, not decoration — the
+   rail, the cross-references in the prose and the table of contents all
+   address sections by this number. */
+.marker{display:flex;align-items:baseline;gap:var(--s3);
+  padding-bottom:var(--s3);margin-bottom:var(--s6);
+  border-bottom:1px solid var(--rule-paper-firm)}
+.on-field .marker{border-bottom-color:var(--rule-field-firm)}
+.on-void .marker{border-bottom-color:var(--rule-void-firm)}
+.marker .num{font-family:var(--mono);font-size:var(--t-label);font-weight:700;
+  letter-spacing:.14em}
+.marker .nm{font-family:var(--mono);font-size:var(--t-label);font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;opacity:.66}
+.marker .sp{margin-left:auto;font-family:var(--mono);font-size:var(--t-label);
+  letter-spacing:.14em;opacity:.5}
+.xref{font-family:var(--mono);font-size:.8em;letter-spacing:.04em;
+  text-decoration:none;border-bottom:1px solid currentColor;white-space:nowrap}
+
+/* ---- cover ------------------------------------------------------------- */
+.cover{min-height:calc(100svh - var(--frame)*2);display:grid;
+  grid-template-rows:auto 1fr auto;padding:var(--s6) 0;position:relative;overflow:hidden}
+.cover-meta{display:flex;flex-wrap:wrap;gap:var(--s4) var(--s6);
+  justify-content:space-between;align-items:baseline}
+.cover-mid{display:grid;align-content:end;gap:var(--s5);padding:var(--s6) 0 var(--s5)}
+.cover-wm{width:min(100%,1080px)}
+.cover-wm svg{width:100%;height:auto}
+.cover-grid{display:grid;gap:var(--s6)}
+@media(min-width:900px){.cover-grid{grid-template-columns:minmax(0,1fr) minmax(0,26rem);
+  align-items:end;gap:var(--s8)}}
+.cover-foot{display:flex;flex-wrap:wrap;gap:var(--s4) var(--s6);
+  justify-content:space-between;align-items:center;
+  border-top:1px solid var(--rule-field-firm);padding-top:var(--s4);margin-top:var(--s5)}
+
+/* the one authored motion moment: the mark arrives whole, then erodes */
+@media(prefers-reduced-motion:no-preference){
+  .is-live .wm-slot{transform-box:fill-box;transform-origin:center top;
+    animation:erode .68s var(--ease) backwards;
+    animation-delay:calc(.30s + var(--i) * .075s)}
+  @keyframes erode{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+}
+
+/* ---- specimen plates --------------------------------------------------- */
+.plate{border:1px solid var(--g-rule);padding:var(--s5);min-width:0;
+  background:var(--g-bg);color:var(--g-fg)}
+.plate-head{display:flex;justify-content:space-between;align-items:baseline;
+  gap:var(--s4);margin-bottom:var(--s4);padding-bottom:var(--s3);
+  border-bottom:1px solid var(--g-rule)}
+
+/* ---- colour ------------------------------------------------------------ */
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;
+  border:1px solid var(--rule-paper-firm)}
+.sw{padding:var(--s5) var(--s4);min-height:172px;display:flex;flex-direction:column;
+  justify-content:flex-end;gap:2px;border-right:1px solid rgba(28,25,23,.14)}
+.sw:last-child{border-right:0}
+.sw .role{font-family:var(--mono);font-size:var(--t-label);font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase}
+.sw .tw,.sw .hex{font-family:var(--mono);font-size:.6875rem;opacity:.8;letter-spacing:.02em}
+.ratio-bar{display:flex;align-items:center;gap:var(--s3);padding:10px var(--s3);
+  border:1px solid var(--rule-paper);font-family:var(--mono);font-size:.75rem}
+.ratio-bar .k{width:11ch;font-weight:700}
+
+/* ---- type specimens ---------------------------------------------------- */
+.spec-line{border-bottom:1px solid var(--rule-paper);padding:var(--s4) 0}
+.spec-line:last-child{border-bottom:0}
+.spec-meta{font-family:var(--mono);font-size:var(--t-label);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-mute);margin-bottom:var(--s2)}
+
+/* ---- code -------------------------------------------------------------- */
+pre{margin:0;overflow-x:auto;background:var(--void);color:var(--on-void);
+  padding:var(--s4) var(--s5);font-family:var(--mono);font-size:.8125rem;
+  line-height:1.7;-moz-tab-size:2;tab-size:2}
+pre .c{color:var(--on-void-2)}
+pre .p{color:var(--signal)}
+code.inl{font-family:var(--mono);font-size:.875em;background:var(--paper-3);
+  padding:1px 5px}
+.on-void code.inl,.on-field code.inl{background:rgba(250,250,249,.16)}
+
+/* ---- do / dont --------------------------------------------------------- */
+.judge{display:grid;gap:var(--s4)}
+@media(min-width:760px){.judge{grid-template-columns:1fr 1fr}}
+.judge>div{border:1px solid var(--rule-paper);padding:var(--s4)}
+.judge .verdict{display:flex;align-items:center;gap:8px;font-family:var(--mono);
+  font-size:var(--t-label);font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:var(--s3)}
+.judge .yes .verdict{color:var(--live)}
+.judge .no .verdict{color:var(--danger)}
+.judge .no{background:var(--paper-2)}
+
+
+/* ---- marks -------------------------------------------------------------
+   Marks are <use> references into one inline sprite. CSS mask-image on an
+   external SVG is not dependable across engines and cannot inherit
+   currentColor at all, so the sprite is the only mark mechanism.            */
+.mkv{display:block;width:100%;height:auto;color:currentColor}
+.mkv-mark,.mkv-plaque{aspect-ratio:1}
+.mkv-word,.mkv-word-sm{aspect-ratio:204.94/48}
+.mkv-lockh{aspect-ratio:272.94/48}
+.mkv-lockv{aspect-ratio:204.94/130}
+.mk-cell{display:grid;place-items:center;padding:var(--s5);border:1px solid var(--g-rule);
+  min-height:150px}
+.mk-cell.dark{background:var(--void);border-color:var(--rule-void)}
+.mk-cell.fld{background:var(--field);border-color:var(--field)}
+.mk-cell .cap{font-family:var(--mono);font-size:var(--t-label);letter-spacing:.14em;
+  text-transform:uppercase;opacity:.6;margin-top:var(--s3)}
+.grid-marks{display:grid;gap:var(--s4);grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+
+/* ---- application mockups ----------------------------------------------- */
+.app-grid{display:grid;grid-template-columns:minmax(0,1fr)}
+@media(min-width:820px){.app-grid{grid-template-columns:264px minmax(0,1fr)}}
+.app-rail{padding:var(--s5);display:grid;gap:var(--s6);align-content:start}
+@media(min-width:820px){.app-rail{min-height:520px}}
+.app-nav{display:block;padding:9px 0;text-decoration:none;font-size:var(--t-small);
+  border-bottom:1px solid color-mix(in srgb,currentColor 22%,transparent);
+  transition:transform .18s var(--ease),opacity .18s var(--ease)}
+.app-nav:hover{transform:translateX(8px)}
+.app-nav.is-on{font-weight:700}
+.app-nav.is-on::before{content:"";display:inline-block;width:10px;height:2px;
+  background:currentColor;vertical-align:middle;margin-right:8px}
+.app-retain{display:flex;gap:var(--s3);align-items:flex-start;
+  border-top:1px solid var(--rule-field-firm);padding-top:var(--s4)}
+.app-main{display:grid;grid-template-rows:auto 1fr auto}
+.app-top{display:flex;justify-content:space-between;align-items:center;gap:var(--s4);
+  padding:var(--s3) var(--s5);border-bottom:1px solid var(--g-rule)}
+.app-thread{padding:var(--s6) var(--s5);display:grid;gap:var(--s6);align-content:start}
+.msg{max-width:58ch}
+.msg-you{margin-left:auto;background:var(--paper-2);padding:var(--s4);
+  border-left:1px solid var(--field)}
+.app-compose{display:flex;gap:var(--s3);padding:var(--s4) var(--s5);
+  border-top:1px solid var(--g-rule-firm);background:var(--g-recess)}
+.app-compose .inp{flex:1}
+
+/* ---- poster / social ---------------------------------------------------- */
+.poster{aspect-ratio:4/5;background:var(--field);color:var(--paper);
+  padding:var(--s6);display:grid;grid-template-rows:auto auto 1fr auto;gap:var(--s4)}
+.poster-slab{background:var(--paper);align-self:stretch;min-height:60px}
+.poster-top{display:flex;justify-content:space-between;align-items:baseline}
+.poster-line{font-size:clamp(2.5rem,6.5vw,4.25rem);line-height:.84;margin-top:var(--s2)}
+.poster-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s4);
+  border-top:1px solid var(--rule-field-firm);padding-top:var(--s4)}
+.social{aspect-ratio:1200/630;padding:var(--s5);display:flex;flex-direction:column;
+  justify-content:center;gap:var(--s4);border:1px solid var(--field)}
+
+.ico{width:1em;height:1em;flex:none;stroke:currentColor;fill:none;
+  stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;vector-effect:non-scaling-stroke}
+</style>
+</head>
+<body>
+<!--
+  OBLIV1A // IDENTITY SYSTEM // DIRECTION CONTRACT
+  THESIS: This identity is built on erasure, not protection. The privacy category
+    ships the vault — shield, lock, keyhole, armour around something still being
+    kept. Obliv1a refuses it: nothing is kept, so nothing needs guarding. Every
+    form in the system loses material on its way down.
+  OWN-WORLD: Two violet fields (violet-700 FIELD, violet-950 VOID) against warm
+    stone-50 PAPER, all Tailwind-native. Zero radius, no shadows — elevation is a
+    1px rule. Archivo condensed-heavy display, Bodoni Moda plate voice, JetBrains
+    Mono for every label and measurement. Signature materials: THE ERASURE (slots
+    thickening downward through any solid form) and THE GRAIN (halftone falloff).
+    Full-bleed colour fields and ruled specimen plates. No cards.
+  STORY: A builder opens this to learn what Obliv1a looks like and leaves able to
+    build with it — every token, ratio and rule in hand — having understood that
+    the brand's whole argument is that memory is the liability.
+  FIRST VIEWPORT: Full-bleed FIELD, no chrome. Wordmark at ~64vw sits low-left,
+    erasure slots legible at that scale and eroding once on arrival. Mono meta
+    rules top-left and top-right; thesis in Bodoni caps at right; a firm rule and
+    the section count anchor the foot. The viewport frame is the brand's frame.
+  FORM: Derived candidate #2 (Lethe, the classical rite of forgetting) fused with
+    #1 (the redacted document). concept-seed.mjs ran at --scope direction --mode
+    read and returned a degraded roll: no ingredient catalog present, no key
+    issued, no challengers dealt. The user's brief pinned the visual world
+    (Nous/Hermes register, purple, Tailwind palette), which beats the roll.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the
+    finish review, the verdict, DESIGN.md, and every shipping raster carrying its
+    provenance
+-->
+<div class="frame" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M3 12h15M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></symbol>
+  <symbol id="i-burn" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><path d="M8 8h12v12H8zM4 16V4h12"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v14M6 12l6 6 6-6M4 21h16"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6zM10 10l4 4M14 10l-4 4"/></symbol>
+</defs></svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="o1-wordmark" viewBox="0 0 204.94 48.00" fill="currentColor">
+  <defs><mask id="sp-wm" maskUnits="userSpaceOnUse" x="143.37" y="-8" width="31.05" height="64.00"><rect fill="#fff" x="143.37" y="-8" width="31.05" height="64.00"/><g fill="#000"><rect x="147.37" y="21.97" width="23.05" height="0.84"/><rect x="147.37" y="25.89" width="23.05" height="1.12"/><rect x="147.37" y="29.67" width="23.05" height="1.54"/><rect x="147.37" y="33.45" width="23.05" height="1.96"/><rect x="147.37" y="37.22" width="23.05" height="2.38"/><rect x="147.37" y="41.00" width="23.05" height="2.80"/><rect x="147.37" y="44.78" width="23.05" height="2.66"/></g></mask></defs>
+  <path d="M19.00 48.84Q13.38 48.84 9.66 46.27Q5.94 43.71 4.08 38.21Q2.23 32.72 2.23 23.96Q2.23 15.20 4.08 9.71Q5.94 4.22 9.66 1.64Q13.38 -0.95 19.00 -0.95Q24.65 -0.95 28.39 1.64Q32.13 4.22 33.95 9.71Q35.77 15.20 35.77 23.96Q35.77 32.72 33.95 38.21Q32.13 43.71 28.39 46.27Q24.65 48.84 19.00 48.84ZM19.00 39.68Q20.76 39.68 21.88 38.90Q23.01 38.13 23.69 36.64Q24.36 35.15 24.64 32.98Q24.93 30.81 24.93 27.98V19.88Q24.93 17.05 24.64 14.90Q24.36 12.75 23.69 11.26Q23.01 9.76 21.88 8.99Q20.76 8.22 19.00 8.22Q17.27 8.22 16.13 8.99Q14.99 9.76 14.31 11.26Q13.64 12.75 13.35 14.90Q13.07 17.05 13.07 19.88V27.98Q13.07 30.81 13.35 32.98Q13.64 35.15 14.31 36.64Q14.99 38.13 16.13 38.90Q17.27 39.68 19.00 39.68Z"/>
+  <path d="M40.20 48.00V-0.11H56.39Q60.36 -0.11 63.16 1.24Q65.96 2.58 67.44 5.14Q68.92 7.69 68.92 11.41Q68.92 14.42 68.03 16.67Q67.13 18.92 65.61 20.44Q64.08 21.96 62.08 22.88V23.16Q64.22 23.87 65.95 25.14Q67.69 26.42 68.71 28.63Q69.72 30.85 69.72 34.38Q69.72 38.96 67.86 41.99Q65.99 45.02 62.55 46.51Q59.10 48.00 54.46 48.00ZM50.65 38.72H54.80Q57.01 38.72 58.06 37.31Q59.10 35.91 59.10 33.03Q59.10 31.50 58.65 30.32Q58.21 29.14 57.27 28.49Q56.34 27.85 54.90 27.85H50.65ZM50.65 19.41H54.48Q55.86 19.41 56.76 18.71Q57.66 18.01 58.11 16.74Q58.55 15.48 58.55 13.69Q58.55 11.54 57.49 10.18Q56.43 8.83 54.51 8.83H50.65Z"/>
+  <path d="M72.94 48.00V-0.11H83.61V38.77H97.76V48.00Z"/>
+  <path d="M100.72 48.00V-0.11H111.39V48.00Z"/>
+  <path d="M122.80 48.00 113.91 -0.11H125.12L128.71 25.44Q128.91 26.80 129.13 28.69Q129.35 30.58 129.59 32.49Q129.82 34.40 129.96 35.85H130.49Q130.60 34.84 130.77 33.21Q130.94 31.57 131.19 29.55Q131.44 27.53 131.74 25.44L135.33 -0.11H146.25L137.36 48.00Z"/>
+  <path d="M147.40 48.00V40.16H154.19V13.03H147.37V6.38Q149.38 6.18 151.69 5.25Q154.00 4.32 156.25 2.90Q158.51 1.48 160.22 -0.15H163.72V40.16H170.43V48.00Z" mask="url(#sp-wm)"/>
+  <path d="M169.96 48.00 180.15 -0.11H194.71L204.94 48.00H193.73L192.08 39.08H182.43L180.85 48.00ZM183.74 30.17H190.81L188.64 17.32Q188.57 16.78 188.45 15.86Q188.32 14.94 188.17 13.81Q188.01 12.67 187.85 11.54Q187.70 10.40 187.56 9.45H187.02Q186.88 10.62 186.69 12.09Q186.50 13.55 186.31 14.95Q186.12 16.35 185.94 17.32Z"/>
+</symbol>
+  <symbol id="o1-wordmark-small" viewBox="0 0 204.94 48.00" fill="currentColor">
+  <path d="M19.00 48.84Q13.38 48.84 9.66 46.27Q5.94 43.71 4.08 38.21Q2.23 32.72 2.23 23.96Q2.23 15.20 4.08 9.71Q5.94 4.22 9.66 1.64Q13.38 -0.95 19.00 -0.95Q24.65 -0.95 28.39 1.64Q32.13 4.22 33.95 9.71Q35.77 15.20 35.77 23.96Q35.77 32.72 33.95 38.21Q32.13 43.71 28.39 46.27Q24.65 48.84 19.00 48.84ZM19.00 39.68Q20.76 39.68 21.88 38.90Q23.01 38.13 23.69 36.64Q24.36 35.15 24.64 32.98Q24.93 30.81 24.93 27.98V19.88Q24.93 17.05 24.64 14.90Q24.36 12.75 23.69 11.26Q23.01 9.76 21.88 8.99Q20.76 8.22 19.00 8.22Q17.27 8.22 16.13 8.99Q14.99 9.76 14.31 11.26Q13.64 12.75 13.35 14.90Q13.07 17.05 13.07 19.88V27.98Q13.07 30.81 13.35 32.98Q13.64 35.15 14.31 36.64Q14.99 38.13 16.13 38.90Q17.27 39.68 19.00 39.68Z"/>
+  <path d="M40.20 48.00V-0.11H56.39Q60.36 -0.11 63.16 1.24Q65.96 2.58 67.44 5.14Q68.92 7.69 68.92 11.41Q68.92 14.42 68.03 16.67Q67.13 18.92 65.61 20.44Q64.08 21.96 62.08 22.88V23.16Q64.22 23.87 65.95 25.14Q67.69 26.42 68.71 28.63Q69.72 30.85 69.72 34.38Q69.72 38.96 67.86 41.99Q65.99 45.02 62.55 46.51Q59.10 48.00 54.46 48.00ZM50.65 38.72H54.80Q57.01 38.72 58.06 37.31Q59.10 35.91 59.10 33.03Q59.10 31.50 58.65 30.32Q58.21 29.14 57.27 28.49Q56.34 27.85 54.90 27.85H50.65ZM50.65 19.41H54.48Q55.86 19.41 56.76 18.71Q57.66 18.01 58.11 16.74Q58.55 15.48 58.55 13.69Q58.55 11.54 57.49 10.18Q56.43 8.83 54.51 8.83H50.65Z"/>
+  <path d="M72.94 48.00V-0.11H83.61V38.77H97.76V48.00Z"/>
+  <path d="M100.72 48.00V-0.11H111.39V48.00Z"/>
+  <path d="M122.80 48.00 113.91 -0.11H125.12L128.71 25.44Q128.91 26.80 129.13 28.69Q129.35 30.58 129.59 32.49Q129.82 34.40 129.96 35.85H130.49Q130.60 34.84 130.77 33.21Q130.94 31.57 131.19 29.55Q131.44 27.53 131.74 25.44L135.33 -0.11H146.25L137.36 48.00Z"/>
+  <path d="M147.40 48.00V40.16H154.19V13.03H147.37V6.38Q149.38 6.18 151.69 5.25Q154.00 4.32 156.25 2.90Q158.51 1.48 160.22 -0.15H163.72V40.16H170.43V48.00Z"/>
+  <path d="M169.96 48.00 180.15 -0.11H194.71L204.94 48.00H193.73L192.08 39.08H182.43L180.85 48.00ZM183.74 30.17H190.81L188.64 17.32Q188.57 16.78 188.45 15.86Q188.32 14.94 188.17 13.81Q188.01 12.67 187.85 11.54Q187.70 10.40 187.56 9.45H187.02Q186.88 10.62 186.69 12.09Q186.50 13.55 186.31 14.95Q186.12 16.35 185.94 17.32Z"/>
+</symbol>
+  <symbol id="o1-lockup-h" viewBox="0 0 272.94 48.00" fill="currentColor">
+
+  <defs><mask id="lhm" maskUnits="userSpaceOnUse" x="-2.31" y="-8" width="31.05" height="64.00"><rect fill="#fff" x="-2.31" y="-8" width="31.05" height="64.00"/><g fill="#000"><rect x="1.69" y="21.97" width="23.05" height="0.84"/><rect x="1.69" y="25.89" width="23.05" height="1.12"/><rect x="1.69" y="29.67" width="23.05" height="1.54"/><rect x="1.69" y="33.45" width="23.05" height="1.96"/><rect x="1.69" y="37.22" width="23.05" height="2.38"/><rect x="1.69" y="41.00" width="23.05" height="2.80"/><rect x="1.69" y="44.78" width="23.05" height="2.66"/></g></mask></defs>
+  <rect x="1.75" y="1.75" width="44.5" height="44.5" stroke="currentColor" stroke-width="3.5" fill="none"/>
+  <g transform="translate(16.56 10.50) scale(0.5625)"><path d="M1.72 48.00V40.16H8.51V13.03H1.69V6.38Q3.70 6.18 6.01 5.25Q8.32 4.32 10.57 2.90Q12.83 1.48 14.54 -0.15H18.04V40.16H24.75V48.00Z" mask="url(#lhm)"/></g>
+
+  <g transform="translate(68 0)">
+  <defs><mask id="lh" maskUnits="userSpaceOnUse" x="143.37" y="-8" width="31.05" height="64.00"><rect fill="#fff" x="143.37" y="-8" width="31.05" height="64.00"/><g fill="#000"><rect x="147.37" y="21.97" width="23.05" height="0.84"/><rect x="147.37" y="25.89" width="23.05" height="1.12"/><rect x="147.37" y="29.67" width="23.05" height="1.54"/><rect x="147.37" y="33.45" width="23.05" height="1.96"/><rect x="147.37" y="37.22" width="23.05" height="2.38"/><rect x="147.37" y="41.00" width="23.05" height="2.80"/><rect x="147.37" y="44.78" width="23.05" height="2.66"/></g></mask></defs>
+  <path d="M19.00 48.84Q13.38 48.84 9.66 46.27Q5.94 43.71 4.08 38.21Q2.23 32.72 2.23 23.96Q2.23 15.20 4.08 9.71Q5.94 4.22 9.66 1.64Q13.38 -0.95 19.00 -0.95Q24.65 -0.95 28.39 1.64Q32.13 4.22 33.95 9.71Q35.77 15.20 35.77 23.96Q35.77 32.72 33.95 38.21Q32.13 43.71 28.39 46.27Q24.65 48.84 19.00 48.84ZM19.00 39.68Q20.76 39.68 21.88 38.90Q23.01 38.13 23.69 36.64Q24.36 35.15 24.64 32.98Q24.93 30.81 24.93 27.98V19.88Q24.93 17.05 24.64 14.90Q24.36 12.75 23.69 11.26Q23.01 9.76 21.88 8.99Q20.76 8.22 19.00 8.22Q17.27 8.22 16.13 8.99Q14.99 9.76 14.31 11.26Q13.64 12.75 13.35 14.90Q13.07 17.05 13.07 19.88V27.98Q13.07 30.81 13.35 32.98Q13.64 35.15 14.31 36.64Q14.99 38.13 16.13 38.90Q17.27 39.68 19.00 39.68Z"/>
+  <path d="M40.20 48.00V-0.11H56.39Q60.36 -0.11 63.16 1.24Q65.96 2.58 67.44 5.14Q68.92 7.69 68.92 11.41Q68.92 14.42 68.03 16.67Q67.13 18.92 65.61 20.44Q64.08 21.96 62.08 22.88V23.16Q64.22 23.87 65.95 25.14Q67.69 26.42 68.71 28.63Q69.72 30.85 69.72 34.38Q69.72 38.96 67.86 41.99Q65.99 45.02 62.55 46.51Q59.10 48.00 54.46 48.00ZM50.65 38.72H54.80Q57.01 38.72 58.06 37.31Q59.10 35.91 59.10 33.03Q59.10 31.50 58.65 30.32Q58.21 29.14 57.27 28.49Q56.34 27.85 54.90 27.85H50.65ZM50.65 19.41H54.48Q55.86 19.41 56.76 18.71Q57.66 18.01 58.11 16.74Q58.55 15.48 58.55 13.69Q58.55 11.54 57.49 10.18Q56.43 8.83 54.51 8.83H50.65Z"/>
+  <path d="M72.94 48.00V-0.11H83.61V38.77H97.76V48.00Z"/>
+  <path d="M100.72 48.00V-0.11H111.39V48.00Z"/>
+  <path d="M122.80 48.00 113.91 -0.11H125.12L128.71 25.44Q128.91 26.80 129.13 28.69Q129.35 30.58 129.59 32.49Q129.82 34.40 129.96 35.85H130.49Q130.60 34.84 130.77 33.21Q130.94 31.57 131.19 29.55Q131.44 27.53 131.74 25.44L135.33 -0.11H146.25L137.36 48.00Z"/>
+  <path d="M147.40 48.00V40.16H154.19V13.03H147.37V6.38Q149.38 6.18 151.69 5.25Q154.00 4.32 156.25 2.90Q158.51 1.48 160.22 -0.15H163.72V40.16H170.43V48.00Z" mask="url(#lh)"/>
+  <path d="M169.96 48.00 180.15 -0.11H194.71L204.94 48.00H193.73L192.08 39.08H182.43L180.85 48.00ZM183.74 30.17H190.81L188.64 17.32Q188.57 16.78 188.45 15.86Q188.32 14.94 188.17 13.81Q188.01 12.67 187.85 11.54Q187.70 10.40 187.56 9.45H187.02Q186.88 10.62 186.69 12.09Q186.50 13.55 186.31 14.95Q186.12 16.35 185.94 17.32Z"/>
+</g>
+</symbol>
+  <symbol id="o1-lockup-v" viewBox="0 0 204.94 130.00" fill="currentColor">
+  <g transform="translate(70.47 0)">
+  <defs><mask id="lvm" maskUnits="userSpaceOnUse" x="-2.31" y="-8" width="31.05" height="64.00"><rect fill="#fff" x="-2.31" y="-8" width="31.05" height="64.00"/><g fill="#000"><rect x="1.69" y="21.97" width="23.05" height="0.84"/><rect x="1.69" y="25.89" width="23.05" height="1.12"/><rect x="1.69" y="29.67" width="23.05" height="1.54"/><rect x="1.69" y="33.45" width="23.05" height="1.96"/><rect x="1.69" y="37.22" width="23.05" height="2.38"/><rect x="1.69" y="41.00" width="23.05" height="2.80"/><rect x="1.69" y="44.78" width="23.05" height="2.66"/></g></mask></defs>
+  <rect x="2.5" y="2.5" width="59" height="59" stroke="currentColor" stroke-width="5" fill="none"/>
+  <g transform="translate(22.64 15.00) scale(0.7083)"><path d="M1.72 48.00V40.16H8.51V13.03H1.69V6.38Q3.70 6.18 6.01 5.25Q8.32 4.32 10.57 2.90Q12.83 1.48 14.54 -0.15H18.04V40.16H24.75V48.00Z" mask="url(#lvm)"/></g>
+</g>
+  <g transform="translate(0.00 82)">
+  <defs><mask id="lv" maskUnits="userSpaceOnUse" x="143.37" y="-8" width="31.05" height="64.00"><rect fill="#fff" x="143.37" y="-8" width="31.05" height="64.00"/><g fill="#000"><rect x="147.37" y="21.97" width="23.05" height="0.84"/><rect x="147.37" y="25.89" width="23.05" height="1.12"/><rect x="147.37" y="29.67" width="23.05" height="1.54"/><rect x="147.37" y="33.45" width="23.05" height="1.96"/><rect x="147.37" y="37.22" width="23.05" height="2.38"/><rect x="147.37" y="41.00" width="23.05" height="2.80"/><rect x="147.37" y="44.78" width="23.05" height="2.66"/></g></mask></defs>
+  <path d="M19.00 48.84Q13.38 48.84 9.66 46.27Q5.94 43.71 4.08 38.21Q2.23 32.72 2.23 23.96Q2.23 15.20 4.08 9.71Q5.94 4.22 9.66 1.64Q13.38 -0.95 19.00 -0.95Q24.65 -0.95 28.39 1.64Q32.13 4.22 33.95 9.71Q35.77 15.20 35.77 23.96Q35.77 32.72 33.95 38.21Q32.13 43.71 28.39 46.27Q24.65 48.84 19.00 48.84ZM19.00 39.68Q20.76 39.68 21.88 38.90Q23.01 38.13 23.69 36.64Q24.36 35.15 24.64 32.98Q24.93 30.81 24.93 27.98V19.88Q24.93 17.05 24.64 14.90Q24.36 12.75 23.69 11.26Q23.01 9.76 21.88 8.99Q20.76 8.22 19.00 8.22Q17.27 8.22 16.13 8.99Q14.99 9.76 14.31 11.26Q13.64 12.75 13.35 14.90Q13.07 17.05 13.07 19.88V27.98Q13.07 30.81 13.35 32.98Q13.64 35.15 14.31 36.64Q14.99 38.13 16.13 38.90Q17.27 39.68 19.00 39.68Z"/>
+  <path d="M40.20 48.00V-0.11H56.39Q60.36 -0.11 63.16 1.24Q65.96 2.58 67.44 5.14Q68.92 7.69 68.92 11.41Q68.92 14.42 68.03 16.67Q67.13 18.92 65.61 20.44Q64.08 21.96 62.08 22.88V23.16Q64.22 23.87 65.95 25.14Q67.69 26.42 68.71 28.63Q69.72 30.85 69.72 34.38Q69.72 38.96 67.86 41.99Q65.99 45.02 62.55 46.51Q59.10 48.00 54.46 48.00ZM50.65 38.72H54.80Q57.01 38.72 58.06 37.31Q59.10 35.91 59.10 33.03Q59.10 31.50 58.65 30.32Q58.21 29.14 57.27 28.49Q56.34 27.85 54.90 27.85H50.65ZM50.65 19.41H54.48Q55.86 19.41 56.76 18.71Q57.66 18.01 58.11 16.74Q58.55 15.48 58.55 13.69Q58.55 11.54 57.49 10.18Q56.43 8.83 54.51 8.83H50.65Z"/>
+  <path d="M72.94 48.00V-0.11H83.61V38.77H97.76V48.00Z"/>
+  <path d="M100.72 48.00V-0.11H111.39V48.00Z"/>
+  <path d="M122.80 48.00 113.91 -0.11H125.12L128.71 25.44Q128.91 26.80 129.13 28.69Q129.35 30.58 129.59 32.49Q129.82 34.40 129.96 35.85H130.49Q130.60 34.84 130.77 33.21Q130.94 31.57 131.19 29.55Q131.44 27.53 131.74 25.44L135.33 -0.11H146.25L137.36 48.00Z"/>
+  <path d="M147.40 48.00V40.16H154.19V13.03H147.37V6.38Q149.38 6.18 151.69 5.25Q154.00 4.32 156.25 2.90Q158.51 1.48 160.22 -0.15H163.72V40.16H170.43V48.00Z" mask="url(#lv)"/>
+  <path d="M169.96 48.00 180.15 -0.11H194.71L204.94 48.00H193.73L192.08 39.08H182.43L180.85 48.00ZM183.74 30.17H190.81L188.64 17.32Q188.57 16.78 188.45 15.86Q188.32 14.94 188.17 13.81Q188.01 12.67 187.85 11.54Q187.70 10.40 187.56 9.45H187.02Q186.88 10.62 186.69 12.09Q186.50 13.55 186.31 14.95Q186.12 16.35 185.94 17.32Z"/>
+</g>
+</symbol>
+  <symbol id="o1-mark" viewBox="0 0 64.00 64.00" fill="currentColor">
+  <defs><mask id="sp-mk" maskUnits="userSpaceOnUse" x="-2.31" y="-8" width="31.05" height="64.00"><rect fill="#fff" x="-2.31" y="-8" width="31.05" height="64.00"/><g fill="#000"><rect x="1.69" y="21.97" width="23.05" height="0.84"/><rect x="1.69" y="25.89" width="23.05" height="1.12"/><rect x="1.69" y="29.67" width="23.05" height="1.54"/><rect x="1.69" y="33.45" width="23.05" height="1.96"/><rect x="1.69" y="37.22" width="23.05" height="2.38"/><rect x="1.69" y="41.00" width="23.05" height="2.80"/><rect x="1.69" y="44.78" width="23.05" height="2.66"/></g></mask></defs>
+  <g transform="translate(19.33 9.00) scale(0.9583)"><path d="M1.72 48.00V40.16H8.51V13.03H1.69V6.38Q3.70 6.18 6.01 5.25Q8.32 4.32 10.57 2.90Q12.83 1.48 14.54 -0.15H18.04V40.16H24.75V48.00Z" mask="url(#sp-mk)"/></g>
+</symbol>
+  <symbol id="o1-plaque" viewBox="0 0 64.00 64.00" fill="currentColor">
+  <defs><mask id="sp-pl" maskUnits="userSpaceOnUse" x="-2.31" y="-8" width="31.05" height="64.00"><rect fill="#fff" x="-2.31" y="-8" width="31.05" height="64.00"/><g fill="#000"><rect x="1.69" y="21.97" width="23.05" height="0.84"/><rect x="1.69" y="25.89" width="23.05" height="1.12"/><rect x="1.69" y="29.67" width="23.05" height="1.54"/><rect x="1.69" y="33.45" width="23.05" height="1.96"/><rect x="1.69" y="37.22" width="23.05" height="2.38"/><rect x="1.69" y="41.00" width="23.05" height="2.80"/><rect x="1.69" y="44.78" width="23.05" height="2.66"/></g></mask></defs>
+  <rect x="2.5" y="2.5" width="59" height="59" stroke="currentColor" stroke-width="5" fill="none"/>
+  <g transform="translate(23.19 16.00) scale(0.6667)"><path d="M1.72 48.00V40.16H8.51V13.03H1.69V6.38Q3.70 6.18 6.01 5.25Q8.32 4.32 10.57 2.90Q12.83 1.48 14.54 -0.15H18.04V40.16H24.75V48.00Z" mask="url(#sp-pl)"/></g>
+</symbol>
+</svg>
+
+<nav class="index" aria-label="Sections">
+  <div class="wrap index-in">
+    <p class="index-here"><b>Obliv1a</b> <span aria-hidden="true">//</span> <span id="hereN">00</span> <span id="hereT">Cover</span></p>
+    <div class="index-nums" id="indexNums"></div>
+  </div>
+</nav>
+
+<!-- ========================================================== 00 COVER === -->
+<header class="cover on-field bleed grain" id="cover" style="--grain-c:#DDD6FE;--grain-o:.30">
+  <div class="wrap">
+    <div class="cover-meta">
+      <p class="t-label">Obliv1a <span aria-hidden="true">//</span> Identity System <span aria-hidden="true">//</span> v1.0</p>
+      <p class="t-label">Open source <span aria-hidden="true">//</span> Zero retention</p>
+    </div>
+  </div>
+
+  <div class="wrap cover-mid">
+    <div class="cover-wm">
+      <svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Obliv1a" viewBox="0 0 204.94 48.00" fill="currentColor">
+        <defs><mask id="cover-erase" maskUnits="userSpaceOnUse" x="143.37" y="-8" width="31.05" height="64.00"><rect fill="#fff" x="143.37" y="-8" width="31.05" height="64.00"/><g fill="#000"><rect class="wm-slot" style="--i:1" x="147.37" y="21.97" width="23.05" height="0.84"/><rect class="wm-slot" style="--i:2" x="147.37" y="25.89" width="23.05" height="1.12"/><rect class="wm-slot" style="--i:3" x="147.37" y="29.67" width="23.05" height="1.54"/><rect class="wm-slot" style="--i:4" x="147.37" y="33.45" width="23.05" height="1.96"/><rect class="wm-slot" style="--i:5" x="147.37" y="37.22" width="23.05" height="2.38"/><rect class="wm-slot" style="--i:6" x="147.37" y="41.00" width="23.05" height="2.80"/><rect class="wm-slot" style="--i:7" x="147.37" y="44.78" width="23.05" height="2.66"/></g></mask></defs>
+        <path d="M19.00 48.84Q13.38 48.84 9.66 46.27Q5.94 43.71 4.08 38.21Q2.23 32.72 2.23 23.96Q2.23 15.20 4.08 9.71Q5.94 4.22 9.66 1.64Q13.38 -0.95 19.00 -0.95Q24.65 -0.95 28.39 1.64Q32.13 4.22 33.95 9.71Q35.77 15.20 35.77 23.96Q35.77 32.72 33.95 38.21Q32.13 43.71 28.39 46.27Q24.65 48.84 19.00 48.84ZM19.00 39.68Q20.76 39.68 21.88 38.90Q23.01 38.13 23.69 36.64Q24.36 35.15 24.64 32.98Q24.93 30.81 24.93 27.98V19.88Q24.93 17.05 24.64 14.90Q24.36 12.75 23.69 11.26Q23.01 9.76 21.88 8.99Q20.76 8.22 19.00 8.22Q17.27 8.22 16.13 8.99Q14.99 9.76 14.31 11.26Q13.64 12.75 13.35 14.90Q13.07 17.05 13.07 19.88V27.98Q13.07 30.81 13.35 32.98Q13.64 35.15 14.31 36.64Q14.99 38.13 16.13 38.90Q17.27 39.68 19.00 39.68Z"/>
+        <path d="M40.20 48.00V-0.11H56.39Q60.36 -0.11 63.16 1.24Q65.96 2.58 67.44 5.14Q68.92 7.69 68.92 11.41Q68.92 14.42 68.03 16.67Q67.13 18.92 65.61 20.44Q64.08 21.96 62.08 22.88V23.16Q64.22 23.87 65.95 25.14Q67.69 26.42 68.71 28.63Q69.72 30.85 69.72 34.38Q69.72 38.96 67.86 41.99Q65.99 45.02 62.55 46.51Q59.10 48.00 54.46 48.00ZM50.65 38.72H54.80Q57.01 38.72 58.06 37.31Q59.10 35.91 59.10 33.03Q59.10 31.50 58.65 30.32Q58.21 29.14 57.27 28.49Q56.34 27.85 54.90 27.85H50.65ZM50.65 19.41H54.48Q55.86 19.41 56.76 18.71Q57.66 18.01 58.11 16.74Q58.55 15.48 58.55 13.69Q58.55 11.54 57.49 10.18Q56.43 8.83 54.51 8.83H50.65Z"/>
+        <path d="M72.94 48.00V-0.11H83.61V38.77H97.76V48.00Z"/>
+        <path d="M100.72 48.00V-0.11H111.39V48.00Z"/>
+        <path d="M122.80 48.00 113.91 -0.11H125.12L128.71 25.44Q128.91 26.80 129.13 28.69Q129.35 30.58 129.59 32.49Q129.82 34.40 129.96 35.85H130.49Q130.60 34.84 130.77 33.21Q130.94 31.57 131.19 29.55Q131.44 27.53 131.74 25.44L135.33 -0.11H146.25L137.36 48.00Z"/>
+        <path d="M147.40 48.00V40.16H154.19V13.03H147.37V6.38Q149.38 6.18 151.69 5.25Q154.00 4.32 156.25 2.90Q158.51 1.48 160.22 -0.15H163.72V40.16H170.43V48.00Z" mask="url(#cover-erase)"/>
+        <path d="M169.96 48.00 180.15 -0.11H194.71L204.94 48.00H193.73L192.08 39.08H182.43L180.85 48.00ZM183.74 30.17H190.81L188.64 17.32Q188.57 16.78 188.45 15.86Q188.32 14.94 188.17 13.81Q188.01 12.67 187.85 11.54Q187.70 10.40 187.56 9.45H187.02Q186.88 10.62 186.69 12.09Q186.50 13.55 186.31 14.95Q186.12 16.35 185.94 17.32Z"/>
+      </svg>
+    </div>
+    <div class="cover-grid">
+      <p class="t-plate" style="font-size:clamp(1.5rem,3.4vw,2.75rem);max-width:22ch">
+        Nothing kept.<br>Nothing known.<br>Nothing to take.
+      </p>
+      <div class="stack">
+        <p class="t-body" style="max-width:38ch">
+          Obliv1a builds open-source software for people who want out of Big Tech and
+          have no interest in becoming technical to get there. We host it. We keep nothing: no logs, no training on your conversations, no account trail.
+        </p>
+        <p class="t-label">The first product is Obliv1a&nbsp;Chat</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="cover-foot">
+      <p class="t-label">Made to forget you</p>
+      <p class="t-label" aria-hidden="true">15 sections <span style="opacity:.55">// scroll</span></p>
+    </div>
+  </div>
+</header>
+
+<!-- =========================================================== 01 NAME === -->
+<section class="sec" id="name">
+  <div class="wrap">
+    <div class="marker"><span class="num">§01</span><span class="nm">The name</span><span class="sp">Fixed</span></div>
+    <div class="cols cols-index">
+      <div class="stack">
+        <h2 class="t-h1">Obliv1a</h2>
+        <p class="t-label mute">oh-BLIV-ee-uh</p>
+      </div>
+      <div class="stack-lg">
+        <div class="stack">
+          <p class="t-lead">
+            <strong>Oblivion</strong> and <strong>Olivia</strong>, folded together. The
+            forgetting and the person it is done for. Both readings are live and the
+            brand uses both: oblivion is what the software does, Olivia is who it does
+            it for.
+          </p>
+          <p class="t-body">
+            The <strong>1</strong> is not a stylisation and not a logo-only flourish. It is how the name is spelled: in the wordmark, in running text, in the domain,
+            in a legal footer, in a sentence someone types into a search bar. It reads as
+            an <em>i</em> and is never spoken. It is also the single load-bearing glyph
+            of the identity: the mark is that numeral and nothing else
+            (<a class="xref" href="#mark">§03</a>).
+          </p>
+        </div>
+
+        <div>
+          <p class="spec-meta">Written form</p>
+          <div class="scroll-x"><table class="spec spec-wide">
+            <thead><tr><th>Form</th><th>Status</th><th>Where</th></tr></thead>
+            <tbody>
+              <tr><td>Obliv1a</td><td><span class="tag" style="color:var(--live)">Correct</span></td><td>Everywhere. Prose, UI, legal, URLs, speech-to-text.</td></tr>
+              <tr><td>OBLIV1A</td><td><span class="tag" style="color:var(--live)">Correct</span></td><td>Display type and the wordmark only, where the whole line is uppercase.</td></tr>
+              <tr><td>Obliv1a&nbsp;Chat</td><td><span class="tag" style="color:var(--live)">Correct</span></td><td>Products take a plain descriptive suffix. Never a sub-brand.</td></tr>
+              <tr><td>Oblivia</td><td><span class="tag" style="color:var(--danger)">Wrong</span></td><td>The etymology, not the name. Never printed.</td></tr>
+              <tr><td>Obliv1A / OBLiV1a</td><td><span class="tag" style="color:var(--danger)">Wrong</span></td><td>Only the first letter capitalises.</td></tr>
+              <tr><td>0bliv1a</td><td><span class="tag" style="color:var(--danger)">Wrong</span></td><td>One numeral, not two. The joke does not compound.</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="judge">
+          <div class="yes">
+            <p class="verdict"><svg class="ico"><use href="#i-check"/></svg>Say</p>
+            <p class="t-small">“Obliv1a keeps nothing.” &nbsp;“Ask Obliv1a Chat.” &nbsp;“Built by Obliv1a.”</p>
+          </div>
+          <div class="no">
+            <p class="verdict"><svg class="ico"><use href="#i-x"/></svg>Don't say</p>
+            <p class="t-small">“Obliv1a (pronounced Oblivia)” &nbsp;“The Obliv1a platform” &nbsp;“Obliv1a AI”</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= 02 POSITION === -->
+<section class="sec on-void bleed grain grain-up" id="position" style="--grain-c:#8B5CF6;--grain-o:.5">
+  <div class="wrap">
+    <div class="marker"><span class="num">§02</span><span class="nm">Position</span><span class="sp">The argument</span></div>
+    <div class="cols cols-side">
+      <div class="stack-lg">
+        <h2 class="t-plate" style="color:var(--signal)">Everyone else sells you a better vault.<br>We are arguing that you should stop storing things.</h2>
+        <p class="t-lead">
+          The privacy category has one picture: a shield, a lock, a keyhole, a padlock
+          rendered in gradient. All of it is armour around something that is still being
+          kept. Kept data is data that can be subpoenaed, breached, sold, or quietly
+          repurposed the year after you agreed to something else.
+        </p>
+        <p class="t-body">
+          Obliv1a hosts the software so an ordinary person never has to run a server, and
+          retains nothing: no conversation logs, no training on what you type, no account
+          trail behind you. The source is open, so this is a claim you can check rather
+          than a promise you have to accept. That is the entire product and the entire identity. <strong>The system is designed around absence.</strong>
+        </p>
+      </div>
+      <div class="stack">
+        <p class="t-label" style="color:var(--on-void-2)">What the identity is built to carry</p>
+        <ul class="stack">
+          <li style="border-top:1px solid var(--rule-void);padding-top:var(--s3)">
+            <p class="t-h3">Amnesia is the feature</p>
+            <p class="t-small mute">Absence is never apologised for, hedged, or drawn as a missing thing. It is the offer.</p></li>
+          <li style="border-top:1px solid var(--rule-void);padding-top:var(--s3)">
+            <p class="t-h3">No expertise required</p>
+            <p class="t-small mute">If a screen needs you to know what a threat model is, that screen has failed.</p></li>
+          <li style="border-top:1px solid var(--rule-void);padding-top:var(--s3)">
+            <p class="t-h3">Auditable over reassuring</p>
+            <p class="t-small mute">Show the check. Never repeat the promise louder.</p></li>
+          <li style="border-top:1px solid var(--rule-void);padding-top:var(--s3)">
+            <p class="t-h3">One brand, many tools</p>
+            <p class="t-small mute">Nothing in the system may be built around chat. Chat is the first product, not the shape.</p></li>
+          <li style="border-top:1px solid var(--rule-void);padding-top:var(--s3)">
+            <p class="t-h3">Serious, not paranoid</p>
+            <p class="t-small mute">The audience is anxious already. Carry conviction; never recruit them into fear.</p></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 03 MARK === -->
+<section class="sec" id="mark">
+  <div class="wrap">
+    <div class="marker"><span class="num">§03</span><span class="nm">The mark</span><span class="sp">Primary asset</span></div>
+    <div class="cols cols-index">
+      <div class="stack">
+        <div class="mk-cell" style="min-height:230px">
+          <svg class="mkv mkv-mark" style="width:150px;color:var(--field)" role="img" aria-label="The Obliv1a mark"><use href="#o1-mark"/></svg>
+        </div>
+        <p class="t-label mute">The erasure</p>
+      </div>
+      <div class="stack-lg">
+        <div class="stack">
+          <h2 class="t-h2">The mark is the numeral, losing its material.</h2>
+          <p class="t-lead">
+            It keeps the full cap height and silhouette of a 1, because it has to read as the
+            character in the name before it reads as anything else, and gives up what is
+            inside instead. Seven horizontal slots cut through the stem, thickening as
+            they descend while the bands between them thin, so the glyph is solid at the
+            top and almost gone at the baseline.
+          </p>
+          <p class="t-body">
+            The argument is in the drawing. The shape survives; the contents do not. That
+            is the product: you keep your name on the thing, we keep none of what went
+            through it. Every other material in this system is a restatement of this one
+            drawing (<a class="xref" href="#erasure">§07</a>).
+          </p>
+        </div>
+
+        <div>
+          <p class="spec-meta">Construction</p>
+          <img src="brand/marks/obliv1a-construction.svg" alt="Construction drawing of the mark: seven slots cut through the stem between cap height and baseline, annotated with their heights in font units, thickening from 12 units at the top to 46 at the bottom." style="width:100%;background:var(--void);border:1px solid var(--rule-void);padding:var(--s3)">
+          <div class="scroll-x" style="margin-top:var(--s4)"><table class="spec spec-wide">
+            <thead><tr><th>Property</th><th>Value</th><th>Note</th></tr></thead>
+            <tbody>
+              <tr><td>Base glyph</td><td>Archivo · wdth 62 · wght 800</td><td>SIL OFL 1.1. The 1 is the family's own glyph, unmodified in outline.</td></tr>
+              <tr><td>Slot count</td><td class="num">7</td><td>Fixed. Never add, remove or re-space them.</td></tr>
+              <tr><td>Slot heights</td><td class="num">12 · 16 · 22 · 28 · 34 · 40 · 38</td><td>Font units at 1000 upem, top to bottom.</td></tr>
+              <tr><td>Band heights</td><td class="num">44 · 38 · 32 · 26 · 20 · 14 · 8</td><td>The surviving material, thinning downward.</td></tr>
+              <tr><td>Solid above</td><td class="num">0.46 cap</td><td>The flag and upper stem never break.</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack" style="margin-top:var(--s8)">
+      <p class="spec-meta">Variants</p>
+      <div class="grid-marks">
+        <div><div class="mk-cell"><svg class="mkv mkv-mark" style="width:78px;color:var(--field)"><use href="#o1-mark"/></svg></div><p class="cap t-label mute" style="margin-top:var(--s2)">Mark · on paper</p></div>
+        <div><div class="mk-cell dark"><svg class="mkv mkv-mark" style="width:78px;color:var(--paper)"><use href="#o1-mark"/></svg></div><p class="cap t-label mute" style="margin-top:var(--s2)">Mark · on void</p></div>
+        <div><div class="mk-cell fld"><svg class="mkv mkv-mark" style="width:78px;color:var(--paper)"><use href="#o1-mark"/></svg></div><p class="cap t-label mute" style="margin-top:var(--s2)">Mark · on field</p></div>
+        <div><div class="mk-cell"><svg class="mkv mkv-plaque" style="width:78px;color:var(--field)"><use href="#o1-plaque"/></svg></div><p class="cap t-label mute" style="margin-top:var(--s2)">Plaque · merch, avatars</p></div>
+        <div><div class="mk-cell"><img src="brand/marks/obliv1a-mark-solid.svg" width="78" height="78" alt="The mark reversed out of a solid violet tile"></div><p class="cap t-label mute" style="margin-top:var(--s2)">Tile · app icon</p></div>
+        <div><div class="mk-cell"><img src="brand/marks/obliv1a-favicon.svg" width="32" height="32" alt="The small-size mark: the numeral solid, slots removed"><img src="brand/marks/obliv1a-favicon.svg" width="16" height="16" alt="" style="margin-top:10px"></div><p class="cap t-label mute" style="margin-top:var(--s2)">Small · 32px and 16px</p></div>
+      </div>
+    </div>
+
+    <div class="cols cols-2" style="margin-top:var(--s8)">
+      <div class="stack">
+        <p class="spec-meta">Clear space &amp; minimum size</p>
+        <div class="plate">
+          <svg viewBox="0 0 260 150" style="width:100%;height:auto" role="img" aria-label="Clear space diagram: a margin equal to the mark's stem width, x, is held on all four sides.">
+            <rect x="20" y="18" width="220" height="114" fill="none" stroke="#D6D3D1" stroke-dasharray="4 4"/>
+            <rect x="52" y="42" width="156" height="66" fill="none" stroke="#C4B5FD"/>
+            <g fill="#6D28D9"><rect x="112" y="52" width="12" height="46"/><rect x="112" y="52" width="30" height="8"/></g>
+            <g stroke="#C026D3" stroke-width="1"><line x1="20" y1="30" x2="52" y2="30"/><line x1="208" y1="30" x2="240" y2="30"/></g>
+            <text x="30" y="27" font-family="ui-monospace,monospace" font-size="8" fill="#C026D3">x</text>
+            <text x="218" y="27" font-family="ui-monospace,monospace" font-size="8" fill="#C026D3">x</text>
+            <text x="24" y="145" font-family="ui-monospace,monospace" font-size="8" fill="#57534E">x = the stem width of the mark</text>
+          </svg>
+        </div>
+        <p class="t-small">
+          Hold <code class="inl">x</code>, one stem width, clear on all four sides, measured
+          from the glyph's ink, not its artboard. Nothing enters that margin: no rule, no
+          type, no photograph edge.
+        </p>
+        <p class="t-small">
+          The erased mark holds down to a <strong>24&nbsp;px cap height</strong>. Below that
+          the slots silt up and it reads as a smudge, so ship
+          <code class="inl">obliv1a-favicon.svg</code> instead: the same numeral, solid.
+          This is the one place the system is allowed to drop its signature material, and
+          it drops it completely rather than halfway.
+        </p>
+      </div>
+      <div class="stack">
+        <p class="spec-meta">Misuse</p>
+        <div class="scroll-x"><table class="spec">
+          <tbody>
+            <tr><td>Rotate or mirror</td><td>The slots read as gravity. Sideways they read as damage.</td></tr>
+            <tr><td>Re-space the slots</td><td>The progression is the drawing. Even spacing is a different mark.</td></tr>
+            <tr><td>Outline or stroke</td><td>The mark is a solid. An outlined 1 is a wireframe of nothing.</td></tr>
+            <tr><td>Recolour off-palette</td><td>FIELD, VOID, PAPER, or the ground's own text colour. Nothing else.</td></tr>
+            <tr><td>Add depth</td><td>No shadow, bevel, glow or gradient. The system has no shadows at all.</td></tr>
+            <tr><td>Stretch</td><td>Scale proportionally. The stem-to-slot ratio is fixed.</td></tr>
+            <tr><td>Set inside a circle</td><td>The container is a square, or there is no container.</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= 04 WORDMARK === -->
+<section class="sec on-field bleed" id="wordmark">
+  <div class="wrap">
+    <div class="marker"><span class="num">§04</span><span class="nm">Wordmark &amp; lockups</span><span class="sp">4.27 : 1</span></div>
+    <div class="stack-lg">
+      <svg class="mkv mkv-word" style="width:100%;color:var(--paper)" role="img" aria-label="Obliv1a wordmark"><use href="#o1-wordmark"/></svg>
+      <div class="cols cols-side">
+        <p class="t-lead">
+          Archivo at width 62 and weight 800, tracked −14/1000&nbsp;em, uppercase. Six of the
+          seven characters are the typeface doing its job honestly. The seventh is the
+          mark. Nothing else is customised, and nothing else needs to be.
+        </p>
+        <div class="scroll-x"><table class="spec" style="--rule-paper:var(--rule-field)">
+          <tbody>
+            <tr><td>Aspect</td><td class="num">4.270 : 1</td></tr>
+            <tr><td>Cap height</td><td class="num">48 units</td></tr>
+            <tr><td>Tracking</td><td class="num">−14 / 1000 em</td></tr>
+            <tr><td>Minimum width</td><td class="num">104 px</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <hr class="rule rule-firm">
+      <div class="cols cols-3">
+        <div class="stack">
+          <p class="t-label">Horizontal lockup</p>
+          <svg class="mkv mkv-lockh" style="width:100%;color:var(--paper)" role="img" aria-label="Horizontal lockup: plaque mark beside the wordmark"><use href="#o1-lockup-h"/></svg>
+          <p class="t-small mute">Default. Headers, footers, letterheads, anywhere with a horizon.</p>
+        </div>
+        <div class="stack">
+          <p class="t-label">Stacked lockup</p>
+          <svg class="mkv mkv-lockv" style="width:min(100%,215px);color:var(--paper)" role="img" aria-label="Stacked lockup: plaque mark above the wordmark"><use href="#o1-lockup-v"/></svg>
+          <p class="t-small mute">Square and narrow spaces. Merch, stickers, app splash, social avatars.</p>
+        </div>
+        <div class="stack">
+          <p class="t-label">Small-size wordmark</p>
+          <svg class="mkv mkv-word-sm" style="width:min(100%,340px);color:var(--paper)" role="img" aria-label="Small-size wordmark with the numeral solid"><use href="#o1-wordmark-small"/></svg>
+          <p class="t-small mute">Below a 24 px cap. The 1 goes solid; everything else is identical.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  /* The erosion is a departure from the resting state, not the way the mark
+     arrives: without this class the wordmark is already, correctly, erased. */
+  (document.fonts ? document.fonts.ready : Promise.resolve())
+    .then(function () { document.body.classList.add('is-live'); });
+</script>
+
+<!-- ========================================================= 05 COLOUR === -->
+<section class="sec" id="colour">
+  <div class="wrap">
+    <div class="marker"><span class="num">§05</span><span class="nm">Colour</span><span class="sp">Committed</span></div>
+    <div class="cols cols-index">
+      <div class="stack">
+        <h2 class="t-h2">Two violets and a warm paper.</h2>
+        <p class="t-small mute">Every value is a stock Tailwind colour. The scale step is
+        the source of truth; the role name is how product code refers to it.</p>
+      </div>
+      <div class="stack-lg">
+        <p class="t-lead">
+          The strategy is <strong>committed</strong>: one saturated colour carries whole
+          regions, not accents dropped on a neutral page. A surface is either FIELD, VOID
+          or PAPER end to end. Half-tinted backgrounds and 5%-opacity brand washes are not
+          part of the system.
+        </p>
+        <p class="t-body">
+          Violet rather than blue because the brand is not the message, it is what happens after. Dusk rather than daylight. Fuchsia is the only warm note and it is
+          rationed hard: it is a dark-ground colour, and it never sets type on FIELD
+          (2.89:1, and no amount of taste fixes that).
+        </p>
+
+        <div class="swatches" style="margin-top:var(--s5)">
+          <div class="sw" style="background:#FAFAF9;color:#1C1917"><span class="role">Paper</span><span class="tw">stone-50</span><span class="hex">#FAFAF9</span></div>
+          <div class="sw" style="background:#6D28D9;color:#FAFAF9"><span class="role">Field</span><span class="tw">violet-700</span><span class="hex">#6D28D9</span></div>
+          <div class="sw" style="background:#5B21B6;color:#FAFAF9"><span class="role">Field deep</span><span class="tw">violet-800</span><span class="hex">#5B21B6</span></div>
+          <div class="sw" style="background:#2E1065;color:#FAFAF9"><span class="role">Void</span><span class="tw">violet-950</span><span class="hex">#2E1065</span></div>
+          <div class="sw" style="background:#1C1917;color:#FAFAF9"><span class="role">Ink</span><span class="tw">stone-900</span><span class="hex">#1C1917</span></div>
+          <div class="sw" style="background:#E879F9;color:#2E1065"><span class="role">Signal</span><span class="tw">fuchsia-400</span><span class="hex">#E879F9</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cols cols-2" style="margin-top:var(--s8)">
+      <div class="stack">
+        <p class="spec-meta">Roles &amp; measured contrast</p>
+        <div class="scroll-x"><table class="spec spec-wide">
+          <thead><tr><th>Role</th><th>Tailwind</th><th>On</th><th class="num">Ratio</th></tr></thead>
+          <tbody>
+            <tr><td>--ink</td><td>stone-900</td><td>paper</td><td class="num">16.74</td></tr>
+            <tr><td>--ink-mute</td><td>stone-600</td><td>paper</td><td class="num">7.30</td></tr>
+            <tr><td>--ink-field</td><td>violet-700</td><td>paper</td><td class="num">6.80</td></tr>
+            <tr><td>--on-field</td><td>stone-50</td><td>field</td><td class="num">6.80</td></tr>
+            <tr><td>--on-field-2</td><td>violet-200</td><td>field</td><td class="num">5.12</td></tr>
+            <tr><td>--on-void</td><td>stone-50</td><td>void</td><td class="num">14.59</td></tr>
+            <tr><td>--on-void-2</td><td>violet-300</td><td>void</td><td class="num">8.25</td></tr>
+            <tr><td>--signal</td><td>fuchsia-400</td><td>void</td><td class="num">6.19</td></tr>
+            <tr><td>--signal-ink</td><td>fuchsia-600</td><td>paper</td><td class="num">4.51</td></tr>
+            <tr><td>--danger</td><td>rose-700</td><td>paper</td><td class="num">6.02</td></tr>
+            <tr><td>--caution</td><td>yellow-700</td><td>paper</td><td class="num">4.71</td></tr>
+            <tr><td>--live</td><td>green-700</td><td>paper</td><td class="num">4.80</td></tr>
+          </tbody>
+        </table></div>
+        <p class="t-small mute">
+          These numbers are not decoration. <code class="inl">node brand/verify-contrast.mjs</code>
+          re-derives every one of them from the stylesheet and exits non-zero if a palette
+          edit breaks the contract.
+        </p>
+      </div>
+
+      <div class="stack">
+        <p class="spec-meta">Forbidden pairings</p>
+        <div class="stack">
+          <div class="ratio-bar" style="background:var(--field);color:var(--signal);border-color:var(--field)">
+            <span class="k">2.89 : 1</span><span>Signal on Field — never type</span>
+          </div>
+          <div class="ratio-bar" style="background:var(--field);color:var(--void);border-color:var(--field)">
+            <span class="k">2.14 : 1</span><span>Void on Field — never type</span>
+          </div>
+          <div class="ratio-bar" style="background:var(--field);color:var(--on-void-2);border-color:var(--field)">
+            <span class="k">3.85 : 1</span><span>violet-300 on Field — large only</span>
+          </div>
+        </div>
+        <p class="t-small">
+          The audience skews older and low-vision, and often reads on a cheap phone in bad
+          light. Colour never carries meaning alone: every state pairs its colour with a
+          word, an icon, or a change of weight (<a class="xref" href="#components">§10</a>).
+        </p>
+        <p class="spec-meta" style="margin-top:var(--s5)">Field coverage</p>
+        <p class="t-small">
+          A FIELD or VOID region should own <strong>30–60%</strong> of a full page. Below
+          that the brand reads as trim; above it, long-form reading suffers. This document
+          runs at roughly 40%.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== 06 TYPOGRAPHY === -->
+<section class="sec" id="typography">
+  <div class="wrap">
+    <div class="marker"><span class="num">§06</span><span class="nm">Typography</span><span class="sp">Three families, four voices</span></div>
+
+    <div class="stack-lg">
+      <div class="plate">
+        <div class="plate-head"><p class="t-label">Display · Archivo · wght 800 · wdth 62–88</p><p class="t-label mute">Headlines, wordmark, posters</p></div>
+        <p class="t-display">Made to forget you</p>
+        <p class="t-small mute" style="margin-top:var(--s3)">
+          Archivo's width axis does the work a second family usually does: 62 for the
+          wordmark and poster voice, 75 for page headings, 88 for section headings. One
+          licence, one file, three registers.
+        </p>
+      </div>
+
+      <div class="plate">
+        <div class="plate-head"><p class="t-label">Plate · Bodoni Moda · wght 600 · opsz 16</p><p class="t-label mute">Statements, pull quotes, covers</p></div>
+        <p class="t-plate">Everything you say here<br><span class="t-plate-i">is already gone.</span></p>
+        <p class="t-small mute" style="margin-top:var(--s3)">
+          A Didone earns its place here for a structural reason rather than an atmospheric
+          one: its hairlines are an artefact of copperplate engraving, the same
+          reproduction lineage the imagery comes from (<a class="xref" href="#grain">§08</a>).
+          The optical-size axis is pinned to 16 so those hairlines survive a saturated
+          ground; left at its default they disappear.
+        </p>
+      </div>
+
+      <div class="plate">
+        <div class="plate-head"><p class="t-label">Text · Archivo · wght 400–700 · wdth 100</p><p class="t-label mute">Body, UI, everything read</p></div>
+        <p class="t-body">
+          Obliv1a Chat runs on servers we operate and keeps no record of what you type. When
+          you close a conversation it is not archived, not summarised, and not used to train
+          anything. There is no history tab because there is no history. If that sounds like
+          a downgrade, it is worth asking what the history was ever for.
+        </p>
+      </div>
+
+      <div class="plate on-void">
+        <div class="plate-head"><p class="t-label">Label · JetBrains Mono · wght 500–700 · +0.14em</p><p class="t-label mute">Labels, data, measurement, chrome</p></div>
+        <p class="t-label" style="font-size:.8125rem">Retention 00:00:00 &nbsp;//&nbsp; Session not stored &nbsp;//&nbsp; MIT</p>
+        <p class="t-small mute" style="margin-top:var(--s3)">
+          Mono is for labels, values and measurement, never for body copy pretending to be
+          technical. It is chosen for its numeral 1: a flagged, base-seriffed 1 that cannot
+          be mistaken for an I or an l. A brand spelled with a numeral cannot afford an
+          ambiguous one.
+        </p>
+      </div>
+    </div>
+
+    <div class="stack" style="margin-top:var(--s8)">
+      <p class="spec-meta">Scale</p>
+      <div class="scroll-x"><table class="spec spec-wide">
+        <thead><tr><th>Token</th><th>Family</th><th>Size</th><th>Line</th><th>Tracking</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td>--t-display</td><td>Archivo 800 / 62</td><td>clamp(2.75rem, 7vw, 5.5rem)</td><td class="num">0.86</td><td class="num">−0.02em</td><td>One per page, at most</td></tr>
+          <tr><td>--t-h1</td><td>Archivo 800 / 75</td><td>clamp(2.25rem, 5vw, 3.75rem)</td><td class="num">0.94</td><td class="num">−0.025em</td><td>Page title</td></tr>
+          <tr><td>--t-h2</td><td>Archivo 700 / 88</td><td>clamp(1.5rem, 2.6vw, 2.25rem)</td><td class="num">1.05</td><td class="num">−0.02em</td><td>Section</td></tr>
+          <tr><td>--t-h3</td><td>Archivo 700 / 100</td><td>1.125rem</td><td class="num">1.30</td><td class="num">−0.01em</td><td>Subsection</td></tr>
+          <tr><td>--t-body</td><td>Archivo 400 / 100</td><td>1rem</td><td class="num">1.62</td><td class="num">0</td><td>Body · max 68ch</td></tr>
+          <tr><td>--t-small</td><td>Archivo 400 / 100</td><td>0.875rem</td><td class="num">1.55</td><td class="num">0</td><td>Secondary</td></tr>
+          <tr><td>--t-label</td><td>JetBrains Mono 500</td><td>0.6875rem</td><td class="num">1.40</td><td class="num">+0.14em</td><td>Labels · uppercase</td></tr>
+        </tbody>
+      </table></div>
+      <p class="t-small mute">Tracking never goes below −0.04em. Body measure is capped at
+      68ch. Headings get more space above than below.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= 07 ERASURE === -->
+<section class="sec on-void bleed" id="erasure">
+  <div class="wrap">
+    <div class="marker"><span class="num">§07</span><span class="nm">The erasure</span><span class="sp">Signature material</span></div>
+    <div class="cols cols-side">
+      <div class="stack-lg">
+        <p class="t-lead">
+          The cut that makes the mark is a material, not a one-off drawing. The same progression (slots thickening downward, bands thinning) applies to any element with a box: a headline, a rule, a colour field, a photograph, a panel edge.
+        </p>
+        <p class="t-body">
+          Use it where something is <em>ending</em>: the foot of a page, the last band of a
+          hero, the bottom of a panel that scrolls away, the close of a section. It is a
+          full stop, so a surface gets one. Two erasures on one screen cancel each other and
+          read as a texture rather than an argument.
+        </p>
+        <div>
+          <p class="spec-meta" style="color:var(--on-void-2)">Applied to a field</p>
+          <div class="erase" style="height:150px;background:var(--signal)"></div>
+        </div>
+        <div>
+          <p class="spec-meta" style="color:var(--on-void-2)">Applied to type</p>
+          <p class="t-display erase" style="font-size:clamp(2.5rem,8vw,5rem)">Forget</p>
+        </div>
+      </div>
+
+      <div class="stack">
+        <p class="spec-meta" style="color:var(--on-void-2)">Two depths</p>
+        <div class="stack">
+          <div>
+            <p class="t-label" style="margin-bottom:8px"><code class="inl">.erase</code> — full cut</p>
+            <div class="erase" style="height:96px;background:var(--paper)"></div>
+            <p class="t-small mute" style="margin-top:var(--s2)">Graphic elements only. Never over text you expect anyone to read.</p>
+          </div>
+          <div>
+            <p class="t-label" style="margin-bottom:8px"><code class="inl">.erase-soft</code> — half depth</p>
+            <div class="erase-soft" style="height:96px;background:var(--paper)"></div>
+            <p class="t-small mute" style="margin-top:var(--s2)">The same rhythm at half strength, for surfaces carrying body copy.</p>
+          </div>
+        </div>
+        <pre><span class="c">/* the exact progression, as a CSS mask */</span>
+<span class="p">.erase</span> {
+  mask-image: linear-gradient(to bottom,
+    #000 0    45.9%, transparent 45.9% 47.7%,
+    #000 47.7% 54.1%, transparent 54.1% 56.4%,
+    #000 56.4% 61.9%, transparent 61.9% 65.1%,
+    #000 65.1% 69.8%, transparent 69.8% 73.8%,
+    #000 73.8% 77.6%, transparent 77.6% 82.6%,
+    #000 82.6% 85.5%, transparent 85.5% 91.3%,
+    #000 91.3% 93.3%, transparent 93.3% 98.8%,
+    #000 98.8% 100%);
+}</pre>
+        <p class="t-small mute">The stops are the mark's seven slots converted to
+        percentages. Editing them is editing the logo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 08 GRAIN === -->
+<section class="sec" id="grain">
+  <div class="wrap">
+    <div class="marker"><span class="num">§08</span><span class="nm">The grain</span><span class="sp">Imagery treatment</span></div>
+    <div class="cols cols-index">
+      <div class="stack">
+        <h2 class="t-h2">Imagery is reproduced until it stops being an image.</h2>
+      </div>
+      <div class="stack-lg">
+        <p class="t-lead">
+          Obliv1a does not ship glossy photography. Every image in the system is put through
+          a halftone screen and reduced toward its dot grid. It is the look of something copied
+          one generation too many times, which is what memory does on its way out.
+        </p>
+        <p class="t-body">
+          This is the one texture the system allows, and it is earned: it comes from print
+          reproduction, the same lineage as the Didone in <a class="xref" href="#typography">§06</a>.
+          Grid overlays, noise filters, gradient meshes and blurred blobs are not part of
+          the brand and never will be.
+        </p>
+
+        <div class="cols cols-2">
+          <div>
+            <p class="spec-meta">Falloff down · <code class="inl">.grain</code></p>
+            <div class="grain on-field" style="--grain-c:#DDD6FE;--grain-o:.55;height:210px;
+                 display:grid;place-items:end start;padding:var(--s4)">
+              <p class="t-label">Density decays toward the bottom</p>
+            </div>
+          </div>
+          <div>
+            <p class="spec-meta">Full field · <code class="inl">.grain-full</code></p>
+            <div class="grain grain-full on-void" style="--grain-c:#8B5CF6;--grain-o:.85;height:210px;
+                 display:grid;place-items:end start;padding:var(--s4)">
+              <p class="t-label">Even screen, for large flat panels</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-x"><table class="spec spec-wide">
+          <thead><tr><th>Setting</th><th>Value</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>--grain-c</td><td>violet-200 on FIELD · violet-500 on VOID</td><td>One step from the ground, never white.</td></tr>
+            <tr><td>--grain-o</td><td>0.22 – 0.55 on FIELD · up to 0.85 on VOID</td><td>The screen must never compete with type on top of it.</td></tr>
+            <tr><td>Cell</td><td class="num">8 px</td><td>Two offset grids at 8px read as one halftone at 4px pitch.</td></tr>
+            <tr><td>Dot radii</td><td class="num">1.5 px / 0.9 px</td><td>The size difference is what stops it reading as a dot grid.</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="judge">
+          <div class="yes">
+            <p class="verdict"><svg class="ico"><use href="#i-check"/></svg>Do</p>
+            <p class="t-small">Screen the image to one or two brand colours. Let the dots be
+            visible at reading distance. Crop hard.</p>
+          </div>
+          <div class="no">
+            <p class="verdict"><svg class="ico"><use href="#i-x"/></svg>Don't</p>
+            <p class="t-small">Full-colour photography, drop shadows, rounded image corners,
+            stock imagery of people looking relieved at laptops.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== 09 GRID === -->
+<section class="sec sec-tight" id="grid">
+  <div class="wrap">
+    <div class="marker"><span class="num">§09</span><span class="nm">Grid &amp; composition</span><span class="sp">Square, ruled, unshadowed</span></div>
+    <div class="cols cols-3">
+      <div class="stack">
+        <p class="t-h3">Zero radius</p>
+        <p class="t-small">Every corner in the system is square: buttons, inputs, panels, images, the mark's plaque. The Tailwind config sets every radius token to 0 so it cannot drift back,
+        because this is a decision and not an oversight. The single exception
+        is a fully round pill on toggle handles, where the shape is the affordance.</p>
+      </div>
+      <div class="stack">
+        <p class="t-h3">Rules, not shadows</p>
+        <p class="t-small">The system has no shadows at all. Elevation is expressed with a
+        1&nbsp;px rule, and each surface declares it once: a border or a ground change,
+        never both. A hairline under a soft shadow is the ghost card and the system does
+        not have one.</p>
+      </div>
+      <div class="stack">
+        <p class="t-h3">Full-bleed fields</p>
+        <p class="t-small">Colour regions run edge to edge and are interrupted by the frame,
+        never by a margin. Content sits on a 1360&nbsp;px measure inside them. A FIELD panel
+        floating in a PAPER page with air around it is a card, and there are no cards.</p>
+      </div>
+    </div>
+    <hr class="rule" style="margin:var(--s7) 0">
+    <div class="cols cols-3">
+      <div class="stack">
+        <p class="t-h3">The frame</p>
+        <p class="t-small">A 10&nbsp;px VOID border holds the viewport on every Obliv1a
+        surface. It is the outermost mark of the system and the cheapest way to recognise
+        one of our screens from across a room.</p>
+      </div>
+      <div class="stack">
+        <p class="t-h3">Spacing</p>
+        <p class="t-small">A 4&nbsp;px base: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128. Tight
+        inside a group, generous between groups, and always more space above a heading than
+        below it.</p>
+      </div>
+      <div class="stack">
+        <p class="t-h3">Section markers</p>
+        <p class="t-small">Numbered markers earn their place by being addressable: the index rail,
+        the cross-references and every internal link address sections by number. If a
+        surface has nothing to cross-reference, it does not get them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================== 10 COMPONENTS === -->
+<section class="sec" id="components">
+  <div class="wrap">
+    <div class="marker"><span class="num">§10</span><span class="nm">Components</span><span class="sp">Live</span></div>
+    <p class="t-lead" style="margin-bottom:var(--s7)">
+      Every control below is the real stylesheet, not a picture of one. Square, ruled,
+      mono-labelled, and legible on all three grounds.
+    </p>
+
+    <div class="cols cols-3">
+      <div class="plate stack">
+        <div class="plate-head"><p class="t-label">Buttons · paper</p></div>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s3)">
+          <button class="btn">Start talking</button>
+          <button class="btn btn-ghost">Read the source</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s3)">
+          <button class="btn btn-sm">Small</button>
+          <button class="btn" disabled>Disabled</button>
+        </div>
+      </div>
+      <div class="plate on-field stack">
+        <div class="plate-head"><p class="t-label">Buttons · field</p></div>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s3)">
+          <button class="btn">Start talking</button>
+          <button class="btn btn-ghost">Read the source</button>
+        </div>
+        <p class="t-small">On FIELD the primary inverts to PAPER. The ghost keeps a
+        violet-200 rule so it holds at 5.12:1.</p>
+      </div>
+      <div class="plate on-void stack">
+        <div class="plate-head"><p class="t-label">Buttons · void</p></div>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s3)">
+          <button class="btn">Start talking</button>
+          <button class="btn btn-ghost">Read the source</button>
+        </div>
+        <p class="t-small">VOID is the only ground where SIGNAL may fill a control. It is the one place fuchsia is load-bearing rather than decorative.</p>
+      </div>
+    </div>
+
+    <div class="cols cols-2" style="margin-top:var(--s6)">
+      <div class="plate stack">
+        <div class="plate-head"><p class="t-label">Fields &amp; states</p></div>
+        <div class="stack">
+          <div>
+            <label class="t-label" for="f1" style="display:block;margin-bottom:6px">Message</label>
+            <input class="inp" id="f1" placeholder="Say anything. It isn't kept.">
+          </div>
+          <div>
+            <label class="t-label" for="f2" style="display:block;margin-bottom:6px">Email · optional</label>
+            <input class="inp" id="f2" value="not-an-address" aria-invalid="true" aria-describedby="f2e">
+            <p id="f2e" class="t-small" style="color:var(--danger);margin-top:6px;display:flex;gap:6px;align-items:center">
+              <svg class="ico"><use href="#i-x"/></svg>
+              That isn't a valid address. Add an @ and a domain, or leave it blank. We don't need one.
+            </p>
+          </div>
+          <div>
+            <label class="t-label" for="f3" style="display:block;margin-bottom:6px">Locked</label>
+            <input class="inp" id="f3" value="Retention: none" disabled>
+          </div>
+        </div>
+        <p class="t-small mute">Errors name the problem and the recovery. Colour is never the only carrier: every state also has an icon and a word.</p>
+      </div>
+
+      <div class="plate stack">
+        <div class="plate-head"><p class="t-label">Tags &amp; status</p></div>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s2)">
+          <span class="tag tag-solid">Open source</span>
+          <span class="tag">MIT</span>
+          <span class="tag tag-signal">Beta</span>
+          <span class="tag" style="color:var(--live)"><svg class="ico"><use href="#i-check"/></svg>Not stored</span>
+          <span class="tag" style="color:var(--caution)">Self-host</span>
+          <span class="tag" style="color:var(--danger)"><svg class="ico"><use href="#i-x"/></svg>Retained</span>
+        </div>
+        <hr class="rule">
+        <div class="stack">
+          <p class="t-label mute">Empty state</p>
+          <div style="border:1px dashed var(--rule-paper);padding:var(--s6) var(--s4);text-align:center">
+            <svg class="mkv mkv-mark" style="width:40px;color:var(--rule-paper);margin:0 auto var(--s3)"><use href="#o1-mark"/></svg>
+            <p class="t-h3">No history</p>
+            <p class="t-small mute" style="max-width:38ch;margin:6px auto 0">
+              There's nothing here and there won't be. Conversations aren't saved, so this
+              screen stays empty on purpose.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack" style="margin-top:var(--s6)">
+      <p class="spec-meta">Data</p>
+      <div class="plate">
+        <div class="scroll-x"><table class="spec spec-wide">
+          <thead><tr><th>What</th><th>Where it goes</th><th class="num">Kept for</th><th>State</th></tr></thead>
+          <tbody>
+            <tr><td>Message text</td><td>Model, in memory</td><td class="num">0 s</td><td><span class="tag" style="color:var(--live)"><svg class="ico"><use href="#i-check"/></svg>Discarded</span></td></tr>
+            <tr><td>Conversation</td><td>Your browser tab</td><td class="num">Session</td><td><span class="tag" style="color:var(--live)"><svg class="ico"><use href="#i-check"/></svg>Never sent</span></td></tr>
+            <tr><td>Account email</td><td>Optional, for sign-in</td><td class="num">Until deleted</td><td><span class="tag" style="color:var(--caution)">Yours to remove</span></td></tr>
+            <tr><td>Request logs</td><td>Not written</td><td class="num">0 s</td><td><span class="tag" style="color:var(--live)"><svg class="ico"><use href="#i-check"/></svg>Discarded</span></td></tr>
+          </tbody>
+        </table></div>
+        <p class="t-small mute" style="margin-top:var(--s3)">
+          Illustrative structure, not published policy. See
+          <a class="xref" href="#open">§15</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== 11 MOTION === -->
+<section class="sec on-field bleed sec-tight" id="motion">
+  <div class="wrap">
+    <div class="marker"><span class="num">§11</span><span class="nm">Motion</span><span class="sp">One moment</span></div>
+    <div class="cols cols-side">
+      <div class="stack-lg">
+        <p class="t-lead">
+          A surface gets <strong>one</strong> authored moment, and in this system it is
+          always the same one: something whole arriving, then losing its material. On this
+          page it is the wordmark eroding once, on load. Everywhere else, motion is
+          feedback and nothing more.
+        </p>
+        <p class="t-body">
+          Easing is <code class="inl">cubic-bezier(.16,1,.3,1)</code>, a hard exponential
+          ease-out that settles fast. Controls transition in 180&nbsp;ms; the authored moment
+          runs 600–700&nbsp;ms. Nothing loops, nothing bounces, nothing pulses to draw
+          attention. Scroll-triggered entrances are not part of the system: content is
+          visible by default and animation is a departure from that, never the way it
+          arrives.
+        </p>
+      </div>
+      <div class="stack">
+        <div class="scroll-x"><table class="spec" style="--rule-paper:var(--rule-field)">
+          <tbody>
+            <tr><td>Control feedback</td><td class="num">180 ms</td></tr>
+            <tr><td>Panel / route change</td><td class="num">240 ms</td></tr>
+            <tr><td>Authored moment</td><td class="num">600–700 ms</td></tr>
+            <tr><td>Easing</td><td class="num">.16, 1, .3, 1</td></tr>
+            <tr><td>Reduced motion</td><td class="num">All of it, off</td></tr>
+          </tbody>
+        </table></div>
+        <p class="t-small">
+          Under <code class="inl">prefers-reduced-motion</code> the erosion does not play and
+          the mark simply is what it is. The resting state is always the finished state. No
+          JavaScript, no animation, no network, and the identity is still correct.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= 12 VOICE === -->
+<section class="sec" id="voice">
+  <div class="wrap">
+    <div class="marker"><span class="num">§12</span><span class="nm">Voice</span><span class="sp">Plain, certain, unafraid</span></div>
+    <div class="cols cols-index">
+      <div class="stack">
+        <h2 class="t-h2">Say the true thing in the shortest sentence that holds it.</h2>
+      </div>
+      <div class="stack-lg">
+        <p class="t-lead">
+          Obliv1a writes for someone who is uneasy, not someone who is technical. That means
+          short declaratives, ordinary words, and no security vocabulary unless a real
+          person would use it. It also means never trading on fear: the reader is already
+          worried, and frightening them further is both cheap and unkind.
+        </p>
+
+        <div class="cols cols-2">
+          <div class="stack">
+            <p class="t-h3">Certain, not defensive</p>
+            <p class="t-small">State what happens. Don't hedge with "we aim to" or "we
+            strive to". If it isn't true yet, say when it will be.</p>
+          </div>
+          <div class="stack">
+            <p class="t-h3">Concrete, not abstract</p>
+            <p class="t-small">"We don't keep your messages" beats "privacy-first
+            architecture". Name the thing and what happens to it.</p>
+          </div>
+          <div class="stack">
+            <p class="t-h3">Never fear-based</p>
+            <p class="t-small">No countdown clocks, no breach statistics, no "they're
+            watching you right now". Conviction, not adrenaline.</p>
+          </div>
+          <div class="stack">
+            <p class="t-h3">Dry, occasionally</p>
+            <p class="t-small">The brand is allowed one flat joke where it's earned —
+            usually about the absence of something. Never at the reader's expense.</p>
+          </div>
+        </div>
+
+        <div>
+          <p class="spec-meta">Microcopy</p>
+          <div class="scroll-x"><table class="spec spec-wide">
+            <thead><tr><th>Moment</th><th>Write</th><th>Not</th></tr></thead>
+            <tbody>
+              <tr><td>Empty history</td><td>There's nothing here and there won't be.</td><td>No conversations yet!</td></tr>
+              <tr><td>Sign-up</td><td>An email if you want sign-in on another device. Skip it otherwise.</td><td>Create your free account to unlock Obliv1a</td></tr>
+              <tr><td>Delete</td><td>Gone. There was no copy.</td><td>Your data has been permanently erased from our systems.</td></tr>
+              <tr><td>Error</td><td>That request didn't reach the model. Try again; nothing was recorded.</td><td>Oops! Something went wrong.</td></tr>
+              <tr><td>Loading</td><td>Thinking</td><td>Please wait while we process your request…</td></tr>
+              <tr><td>Retention</td><td>Not stored</td><td>End-to-end encrypted zero-knowledge pipeline</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="judge">
+          <div class="yes">
+            <p class="verdict"><svg class="ico"><use href="#i-check"/></svg>On voice</p>
+            <p class="t-small">“We host it so you don't have to. We keep nothing so you
+            don't have to trust us about it.”</p>
+          </div>
+          <div class="no">
+            <p class="verdict"><svg class="ico"><use href="#i-x"/></svg>Off voice</p>
+            <p class="t-small">“Obliv1a leverages a privacy-first, zero-knowledge
+            architecture to empower users to take back control of their digital
+            footprint.”</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== 13 IN USE === -->
+<section class="sec on-void bleed" id="inuse">
+  <div class="wrap">
+    <div class="marker"><span class="num">§13</span><span class="nm">In use</span><span class="sp">Illustrative</span></div>
+    <p class="t-lead" style="margin-bottom:var(--s7)">
+      The system running on real surfaces. Copy and interface below are authored to
+      demonstrate the language — they are not shipped product, and every commercial claim is
+      left out on purpose (<a class="xref" href="#open" style="color:var(--signal)">§15</a>).
+    </p>
+
+    <!-- product UI -->
+    <p class="spec-meta" style="color:var(--on-void-2)">Obliv1a Chat · product interface</p>
+    <div style="border:1px solid var(--rule-void-firm);background:var(--paper);color:var(--ink);
+         display:grid;grid-template-columns:minmax(0,1fr);overflow:hidden" class="app">
+      <div class="app-grid">
+        <aside class="app-rail on-field">
+          <div class="stack">
+            <svg class="mkv mkv-lockh" style="width:150px;color:var(--paper)" role="img" aria-label="Obliv1a"><use href="#o1-lockup-h"/></svg>
+            <button class="btn" style="width:100%;justify-content:center">
+              <svg class="ico"><use href="#i-plus"/></svg>New conversation</button>
+          </div>
+          <nav class="stack" style="gap:0" aria-label="Product">
+            <p class="t-label" style="opacity:.7;margin-bottom:var(--s2)">Obliv1a</p>
+            <a class="app-nav is-on" href="#inuse" aria-current="page">Chat</a>
+            <a class="app-nav" href="#inuse">Models</a>
+            <a class="app-nav" href="#inuse">Source</a>
+            <a class="app-nav" href="#inuse">About</a>
+          </nav>
+          <div class="app-retain">
+            <svg class="mkv mkv-mark" style="width:30px;color:var(--paper);flex:none"><use href="#o1-mark"/></svg>
+            <div>
+              <p class="t-label">Nothing stored</p>
+              <p class="t-small" style="opacity:.8;font-size:.75rem;line-height:1.4">
+                This conversation lives in this tab only.</p>
+            </div>
+          </div>
+        </aside>
+
+        <div class="app-main on-paper">
+          <header class="app-top">
+            <p class="t-label mute">Session <span aria-hidden="true">//</span> not recorded</p>
+            <button class="btn btn-ghost btn-sm"><svg class="ico"><use href="#i-burn"/></svg>Clear</button>
+          </header>
+          <div class="app-thread">
+            <div class="msg msg-you">
+              <p class="t-label mute">You</p>
+              <p class="t-body">My employer gave me a form about a medical leave and I don't
+                understand what section 4 is asking. Can I paste it?</p>
+            </div>
+            <div class="msg">
+              <p class="t-label" style="color:var(--ink-field)">Obliv1a</p>
+              <p class="t-body">Go ahead. Nothing you paste here is stored or used for
+                training, so you don't need to redact names before you send it.</p>
+              <p class="t-body" style="margin-top:var(--s3)">Section 4 is usually where the form asks who certifies the leave: you, a doctor, or both. Paste it and
+                I'll tell you exactly which parts you fill in.</p>
+            </div>
+          </div>
+          <div class="app-compose">
+            <input class="inp" placeholder="Say anything. It isn't kept." aria-label="Message">
+            <button class="btn" aria-label="Send"><svg class="ico"><use href="#i-send"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- poster + icons -->
+    <div class="cols cols-side" style="margin-top:var(--s8);align-items:start">
+      <div class="stack">
+        <p class="spec-meta" style="color:var(--on-void-2)">Poster</p>
+        <div class="poster grain grain-full" style="--grain-c:#E879F9;--grain-o:.5">
+          <div class="poster-top">
+            <p class="t-label">Obliv1a</p>
+            <p class="t-label">MIT <span aria-hidden="true">//</span> 2026</p>
+          </div>
+          <p class="poster-line t-display">Nothing<br>to take</p>
+          <div class="poster-slab erase"></div>
+          <div class="poster-foot">
+            <p class="t-plate" style="font-size:clamp(1rem,2vw,1.5rem)">Software that forgets you on purpose</p>
+            <svg class="mkv mkv-lockv" style="width:96px;color:var(--paper);flex:none"><use href="#o1-lockup-v"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <p class="spec-meta" style="color:var(--on-void-2)">Application icons</p>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s4);align-items:flex-end">
+          <div style="text-align:center"><img src="brand/marks/obliv1a-mark-solid.svg" width="96" height="96" alt="App icon, 96px"><p class="t-label mute" style="margin-top:var(--s2)">96</p></div>
+          <div style="text-align:center"><img src="brand/marks/obliv1a-mark-solid.svg" width="56" height="56" alt="App icon, 56px"><p class="t-label mute" style="margin-top:var(--s2)">56</p></div>
+          <div style="text-align:center"><img src="brand/marks/obliv1a-favicon.svg" width="32" height="32" alt="Favicon, 32px"><p class="t-label mute" style="margin-top:var(--s2)">32</p></div>
+          <div style="text-align:center"><img src="brand/marks/obliv1a-favicon.svg" width="16" height="16" alt="Favicon, 16px"><p class="t-label mute" style="margin-top:var(--s2)">16</p></div>
+        </div>
+        <p class="t-small mute">The 96 and 56 carry the erasure. At 32 and below the slots
+        silt up, so the solid numeral ships instead.</p>
+
+        <p class="spec-meta" style="color:var(--on-void-2);margin-top:var(--s5)">Social card · 1200×630</p>
+        <div class="social on-field grain" style="--grain-c:#DDD6FE;--grain-o:.4">
+          <svg class="mkv mkv-word" style="width:74%;color:var(--paper)"><use href="#o1-wordmark"/></svg>
+          <p class="t-plate" style="font-size:clamp(.9rem,1.7vw,1.3rem);margin-top:auto;line-height:1.15">Nothing kept.<br>Nothing known. Nothing to take.</p>
+        </div>
+
+        <p class="spec-meta" style="color:var(--on-void-2);margin-top:var(--s5)">Merch · chest plaque</p>
+        <div style="background:var(--ink);padding:var(--s7);display:grid;place-items:center;
+             border:1px solid var(--rule-void)">
+          <svg class="mkv mkv-lockv" style="width:120px;color:var(--paper)"><use href="#o1-lockup-v"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== 14 TOKENS === -->
+<section class="sec" id="tokens">
+  <div class="wrap">
+    <div class="marker"><span class="num">§14</span><span class="nm">Tokens</span><span class="sp">Copy out</span></div>
+    <div class="cols cols-2">
+      <div class="stack">
+        <p class="t-h3">Tailwind v4 · <code class="inl">brand/theme.css</code></p>
+        <pre><span class="c">/* after @import "tailwindcss"; */</span>
+<span class="p">@theme</span> {
+  --color-paper:      #FAFAF9; <span class="c">/* stone-50   */</span>
+  --color-field:      #6D28D9; <span class="c">/* violet-700 */</span>
+  --color-field-deep: #5B21B6; <span class="c">/* violet-800 */</span>
+  --color-void:       #2E1065; <span class="c">/* violet-950 */</span>
+  --color-ink:        #1C1917; <span class="c">/* stone-900  */</span>
+  --color-signal:     #E879F9; <span class="c">/* fuchsia-400 */</span>
+  --color-signal-ink: #C026D3; <span class="c">/* fuchsia-600 */</span>
+
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-plate:   "Bodoni Moda", Georgia, serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  <span class="c">/* the system is square — this is a decision */</span>
+  --radius-sm: 0px; --radius-md: 0px; --radius-lg: 0px;
+}</pre>
+        <p class="t-small mute">Tailwind v3 users take <code class="inl">brand/tailwind.config.js</code>
+        instead. Both carry an identical palette.</p>
+      </div>
+      <div class="stack">
+        <p class="t-h3">What ships</p>
+        <div class="scroll-x"><table class="spec">
+          <tbody>
+            <tr><td>brand/obliv1a.css</td><td>Tokens, type, controls, materials. The system.</td></tr>
+            <tr><td>brand/theme.css</td><td>Tailwind v4 <code class="inl">@theme</code> block.</td></tr>
+            <tr><td>brand/tailwind.config.js</td><td>Tailwind v3 equivalent.</td></tr>
+            <tr><td>brand/verify-contrast.mjs</td><td>Re-derives every published ratio. Run it in CI.</td></tr>
+            <tr><td>brand/fonts/</td><td>Four self-hosted variable faces, latin subset, 231 KB total.</td></tr>
+            <tr><td>brand/marks/</td><td>Nine SVGs plus the generator that produced them.</td></tr>
+            <tr><td>brand/marks/_build.py</td><td>The mark's geometry as code. Edit here, never the SVG.</td></tr>
+          </tbody>
+        </table></div>
+        <p class="t-h3" style="margin-top:var(--s4)">Licences</p>
+        <p class="t-small">Archivo, Bodoni Moda and JetBrains Mono are all SIL Open Font
+        License 1.1 — free to self-host, embed and derive a wordmark from. The mark is
+        derived from Archivo's numeral 1 under that licence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================== 15 OPEN ITEMS === -->
+<section class="sec sec-tight" id="open">
+  <div class="wrap">
+    <div class="marker"><span class="num">§15</span><span class="nm">Open items</span><span class="sp">Before launch</span></div>
+    <div class="cols cols-side">
+      <div class="stack">
+        <p class="t-lead">
+          Nothing in this document invents a commercial fact. The following are genuinely
+          undecided and are deliberately absent from the system rather than filled with
+          plausible placeholders.
+        </p>
+        <div class="scroll-x"><table class="spec">
+          <thead><tr><th>Item</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Pricing &amp; funding model</td><td>Undecided. No tier structure exists anywhere in this system.</td></tr>
+            <tr><td>Licence identifier</td><td>Shown as MIT in mockups as a stand-in. Confirm before any asset ships.</td></tr>
+            <tr><td>Model provenance</td><td>Which models Obliv1a Chat runs is unstated. Do not imply a vendor.</td></tr>
+            <tr><td>Jurisdiction &amp; hosting region</td><td>Unstated. Material to the retention claim — settle it early.</td></tr>
+            <tr><td>Retention schedule</td><td>The table in §10 is illustrative structure, not published policy.</td></tr>
+            <tr><td>Audits, press, users</td><td>None exist. The system has no slot for logos or counts, on purpose.</td></tr>
+            <tr><td>Photography</td><td>None commissioned. §08 defines the treatment for when it is.</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="stack">
+        <p class="t-h3">If you change one thing</p>
+        <p class="t-small">Change the palette, not the geometry. The violets can move a step
+        without breaking anything as long as <code class="inl">verify-contrast.mjs</code>
+        still passes. The mark's slot progression, the zero radius and the absence of
+        shadows are the system's spine — moving any of them makes it a different brand.</p>
+        <hr class="rule">
+        <p class="t-h3">If you add a product</p>
+        <p class="t-small">It takes a plain descriptive name — Obliv1a Mail, Obliv1a Notes —
+        and inherits this system unchanged. No product sub-brand, no second palette, no
+        variant mark. The house is the identity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="on-void bleed" style="padding:var(--s8) 0">
+  <div class="wrap">
+    <div class="cols cols-side" style="align-items:end;gap:var(--s6)">
+      <svg class="mkv mkv-word erase-soft" style="width:min(100%,560px);color:var(--paper)" role="img" aria-label="Obliv1a"><use href="#o1-wordmark"/></svg>
+      <div class="stack">
+        <p class="t-label">Identity system v1.0 <span aria-hidden="true">//</span> 2026</p>
+        <p class="t-small mute">Made to forget you.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* The index is generated from the sections themselves, so a section added
+     to the document cannot fall out of it. */
+  (function () {
+    var secs  = [].slice.call(document.querySelectorAll('header#cover, section[id]'));
+    var nums  = document.getElementById('indexNums');
+    var hereN = document.getElementById('hereN');
+    var hereT = document.getElementById('hereT');
+    if (!nums) return;
+    var names = secs.map(function (s, i) {
+      var mk = s.querySelector('.marker .nm');
+      var name = mk ? mk.textContent.trim() : 'Cover';
+      var a = document.createElement('a');
+      a.href = '#' + s.id;
+      a.textContent = String(i).padStart(2, '0');
+      a.title = name;
+      nums.appendChild(a);
+      return name;
+    });
+    var links = [].slice.call(nums.children);
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var i = secs.indexOf(e.target);
+        if (i < 0) return;
+        hereN.textContent = String(i).padStart(2, '0');
+        hereT.textContent = names[i];
+        links.forEach(function (a, j) {
+          if (j === i) a.setAttribute('aria-current', 'true');
+          else a.removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    secs.forEach(function (s) { io.observe(s); });
+  })();
+</script>
+</body>
+</html>

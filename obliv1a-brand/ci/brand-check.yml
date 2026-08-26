@@ -1,0 +1,32 @@
+# Move to .github/workflows/brand-check.yml
+#
+# Guards the identity system against silent drift: the contrast audit re-derives
+# every published ratio from obliv1a.css, and the mark build asserts all ten SVGs
+# still regenerate byte-identically from _build.py.
+name: brand
+
+on:
+  push:
+    paths: ['brand/**']
+  pull_request:
+    paths: ['brand/**']
+
+jobs:
+  contrast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: node brand/verify-contrast.mjs
+
+  marks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install fonttools brotli
+      - run: python brand/marks/_build.py
+      - name: Marks must reproduce byte-identically
+        run: git diff --exit-code -- brand/marks

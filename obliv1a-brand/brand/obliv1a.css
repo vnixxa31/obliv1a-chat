@@ -1,0 +1,300 @@
+/* ===========================================================================
+   OBLIV1A — IDENTITY SYSTEM v1.0
+   The shipped stylesheet. Every colour below is a literal Tailwind palette
+   value; the Tailwind name is written beside it and is the source of truth.
+   Companion files: theme.css (Tailwind v4 @theme), tailwind.config.js (v3).
+   =========================================================================== */
+
+/* ------------------------------------------------------------------ fonts */
+@font-face{font-family:"Archivo";src:url("fonts/archivo-var.woff2")format("woff2-variations");
+  font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"Bodoni Moda";src:url("fonts/bodoni-moda-var.woff2")format("woff2-variations");
+  font-weight:400 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Bodoni Moda";src:url("fonts/bodoni-moda-italic-var.woff2")format("woff2-variations");
+  font-weight:400 900;font-style:italic;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("fonts/jetbrains-mono-var.woff2")format("woff2-variations");
+  font-weight:100 800;font-display:swap}
+
+/* ----------------------------------------------------------------- tokens */
+:root{
+  /* GROUND ------------------------------------------------------------- */
+  --paper:      #FAFAF9;  /* stone-50   the document */
+  --paper-2:    #F5F5F4;  /* stone-100  recessed */
+  --paper-3:    #E7E5E4;  /* stone-200  inset / disabled */
+  --field:      #6D28D9;  /* violet-700 THE BRAND FIELD */
+  --field-deep: #5B21B6;  /* violet-800 pressed / weight */
+  --void:       #2E1065;  /* violet-950 the ground beneath */
+
+  /* INK ---------------------------------------------------------------- */
+  --ink:        #1C1917;  /* stone-900  body on paper        16.74:1 */
+  --ink-mute:   #57534E;  /* stone-600  secondary on paper    7.30:1 */
+  --ink-field:  #6D28D9;  /* violet-700 brand type on paper   6.80:1 */
+  --on-field:   #FAFAF9;  /* stone-50   on FIELD              6.80:1 */
+  --on-field-2: #DDD6FE;  /* violet-200 secondary on FIELD    5.12:1 */
+  --on-void:    #FAFAF9;  /* stone-50   on VOID              14.59:1 */
+  --on-void-2:  #C4B5FD;  /* violet-300 secondary on VOID     8.25:1 */
+
+  /* SIGNAL — the only warm note in the system --------------------------- */
+  --signal:     #E879F9;  /* fuchsia-400 on VOID only         6.19:1 */
+  --signal-ink: #C026D3;  /* fuchsia-600 on PAPER only        4.51:1 */
+
+  /* LINE — elevation is a rule, never a shadow -------------------------- */
+  --rule-paper:      #D6D3D1;  /* stone-300  */
+  --rule-paper-firm: #1C1917;  /* stone-900  */
+  --rule-field:      #8B5CF6;  /* violet-500 */
+  --rule-field-firm: #DDD6FE;  /* violet-200 */
+  --rule-void:       #5B21B6;  /* violet-800 */
+  --rule-void-firm:  #8B5CF6;  /* violet-500 */
+
+  /* STATE --------------------------------------------------------------- */
+  --danger:  #BE123C;  /* rose-700   6.02:1 on paper */
+  --caution: #A16207;  /* yellow-700 4.71:1 on paper */
+  --live:    #15803D;  /* green-700  4.80:1 on paper */
+
+  /* TYPE ---------------------------------------------------------------- */
+  --display:'Archivo',ui-sans-serif,system-ui,sans-serif;
+  --plate:'Bodoni Moda',ui-serif,Georgia,serif;
+  --text:'Archivo',ui-sans-serif,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --t-display:clamp(2.75rem,7vw,5.5rem);
+  --t-h1:clamp(2.25rem,5vw,3.75rem);
+  --t-h2:clamp(1.5rem,2.6vw,2.25rem);
+  --t-h3:1.125rem;
+  --t-body:1rem;
+  --t-small:.875rem;
+  --t-label:.6875rem;
+
+  /* SPACE — 4px base ---------------------------------------------------- */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px; --s8:64px; --s9:96px; --s10:128px;
+
+  --frame:10px;          /* the viewport frame — the system's outermost mark */
+  --measure:68ch;
+  --radius:0;            /* not a variable to change. see §10. */
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+/* ------------------------------------------------------------------ reset */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--text);font-size:var(--t-body);line-height:1.6;
+  font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{display:block;max-width:100%}
+h1,h2,h3,h4,p,figure,blockquote{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+a{color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
+
+/* --------------------------------------------- browser surfaces are ours */
+::selection{background:var(--field);color:var(--paper)}
+:root{accent-color:var(--field);caret-color:var(--field);
+  scrollbar-color:var(--field) var(--paper-3);scrollbar-width:thin}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:var(--paper-3)}
+::-webkit-scrollbar-thumb{background:var(--field);border:3px solid var(--paper-3)}
+::-webkit-scrollbar-thumb:hover{background:var(--void)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+:target{scroll-margin-top:var(--s8)}
+
+/* ======================================================== TYPOGRAPHY ==== */
+.t-display{font-family:var(--display);font-weight:800;font-stretch:62%;
+  font-size:var(--t-display);line-height:.86;letter-spacing:-.02em;
+  text-transform:uppercase;text-wrap:balance}
+.t-h1{font-family:var(--display);font-weight:800;font-stretch:75%;
+  font-size:var(--t-h1);line-height:.94;letter-spacing:-.025em;
+  text-transform:uppercase;text-wrap:balance}
+.t-h2{font-family:var(--display);font-weight:700;font-stretch:88%;
+  font-size:var(--t-h2);line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+.t-h3{font-family:var(--text);font-weight:700;font-size:var(--t-h3);
+  line-height:1.3;letter-spacing:-.01em}
+.t-plate{font-family:var(--plate);font-weight:600;font-size:var(--t-h1);
+  font-variation-settings:"opsz" 16;
+  line-height:1.04;letter-spacing:.005em;text-transform:uppercase;text-wrap:balance}
+/* Bodoni is a Didone. Its hairlines disappear on a saturated ground and at any
+   size under poster scale, so the optical-size axis is pinned low (thicker
+   hairlines) rather than left at the default. Raise it only above ~72px. */
+.t-plate-xl{font-variation-settings:"opsz" 44;font-weight:500}
+.t-plate-i{font-family:var(--plate);font-style:italic;font-weight:400;
+  text-transform:none;letter-spacing:0}
+.t-body{font-size:var(--t-body);line-height:1.62;max-width:var(--measure)}
+.t-small{font-size:var(--t-small);line-height:1.55}
+.t-lead{font-size:clamp(1.0625rem,1.5vw,1.25rem);line-height:1.5;max-width:60ch}
+.t-label{font-family:var(--mono);font-size:var(--t-label);font-weight:500;
+  text-transform:uppercase;letter-spacing:.14em;line-height:1.4}
+.t-mono{font-family:var(--mono);font-size:var(--t-small);letter-spacing:-.01em;
+  font-variant-ligatures:none}
+.mute{color:var(--ink-mute)}
+.on-field .mute{color:var(--on-field-2)}
+.on-void .mute{color:var(--on-void-2)}
+
+/* ============================================================ GROUNDS ===
+   A ground is a contract, not a background colour. Each one re-declares every
+   variable the components read, so grounds NEST correctly: a PAPER panel inside
+   a VOID section gets PAPER controls, because the nearest ground wins. Never
+   style a component by descendant selector from a ground — that is what broke
+   when this system was first written.                                        */
+:root,.on-paper{
+  --g-bg:var(--paper); --g-fg:var(--ink); --g-fg-2:var(--ink-mute);
+  --g-rule:var(--rule-paper); --g-rule-firm:var(--rule-paper-firm);
+  --g-recess:var(--paper-2);
+  --btn-bg:var(--field); --btn-fg:var(--paper); --btn-bg-hover:var(--void);
+  --btn-gh-fg:var(--ink-field); --btn-gh-bd:var(--field);
+  --btn-gh-fg-hover:var(--paper); --btn-gh-bg-hover:var(--field);
+  --inp-bg:var(--paper); --inp-bd:var(--rule-paper-firm); --inp-ph:var(--ink-mute);
+  --tag-fg:var(--ink-field); --tag-solid-bg:var(--field); --tag-solid-fg:var(--paper);
+  --signal-here:var(--signal-ink); --focus:var(--signal-ink);
+}
+.on-field{
+  --g-bg:var(--field); --g-fg:var(--on-field); --g-fg-2:var(--on-field-2);
+  --g-rule:var(--rule-field); --g-rule-firm:var(--rule-field-firm);
+  --g-recess:var(--field-deep);
+  --btn-bg:var(--paper); --btn-fg:var(--field); --btn-bg-hover:var(--void);
+  --btn-gh-fg:var(--paper); --btn-gh-bd:var(--on-field-2);
+  --btn-gh-fg-hover:var(--field); --btn-gh-bg-hover:var(--paper);
+  --inp-bg:transparent; --inp-bd:var(--on-field-2); --inp-ph:var(--on-field-2);
+  --tag-fg:var(--paper); --tag-solid-bg:var(--paper); --tag-solid-fg:var(--field);
+  --signal-here:var(--paper); --focus:var(--signal);
+}
+.on-void{
+  --g-bg:var(--void); --g-fg:var(--on-void); --g-fg-2:var(--on-void-2);
+  --g-rule:var(--rule-void); --g-rule-firm:var(--rule-void-firm);
+  --g-recess:#25084F;
+  --btn-bg:var(--signal); --btn-fg:var(--void); --btn-bg-hover:var(--paper);
+  --btn-gh-fg:var(--paper); --btn-gh-bd:var(--rule-void-firm);
+  --btn-gh-fg-hover:var(--void); --btn-gh-bg-hover:var(--paper);
+  --inp-bg:transparent; --inp-bd:var(--rule-void-firm); --inp-ph:var(--on-void-2);
+  --tag-fg:var(--paper); --tag-solid-bg:var(--signal); --tag-solid-fg:var(--void);
+  --signal-here:var(--signal); --focus:var(--signal);
+}
+.on-paper,.on-field,.on-void{background:var(--g-bg);color:var(--g-fg)}
+.mute{color:var(--g-fg-2)}
+
+/* ============================================================= RULES ==== */
+.rule{border:0;border-top:1px solid var(--g-rule);margin:0}
+.rule-firm{border-top-color:var(--g-rule-firm)}
+
+/* ========================================================== CONTROLS ==== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);
+  font-family:var(--mono);font-size:var(--t-label);font-weight:600;
+  text-transform:uppercase;letter-spacing:.14em;text-decoration:none;
+  padding:13px var(--s5);border:1px solid transparent;border-radius:0;
+  background:var(--btn-bg);color:var(--btn-fg);cursor:pointer;
+  transition:background .18s var(--ease),color .18s var(--ease),
+             border-color .18s var(--ease),transform .18s var(--ease)}
+.btn:hover{background:var(--btn-bg-hover);color:var(--btn-fg)}
+.on-void .btn:hover,.on-field .btn:hover{color:var(--btn-fg)}
+.btn:active{transform:translateY(1px)}
+.btn-ghost{background:transparent;color:var(--btn-gh-fg);border-color:var(--btn-gh-bd)}
+.btn-ghost:hover{background:var(--btn-gh-bg-hover);color:var(--btn-gh-fg-hover);
+  border-color:var(--btn-gh-bg-hover)}
+.btn[disabled],.btn[aria-disabled=true]{background:var(--paper-3);color:var(--ink-mute);
+  border-color:var(--paper-3);cursor:not-allowed;transform:none}
+.btn-sm{padding:8px var(--s4)}
+
+.inp{display:block;width:100%;padding:12px var(--s4);border-radius:0;
+  background:var(--inp-bg);color:var(--g-fg);border:1px solid var(--inp-bd);
+  font-size:var(--t-body);transition:border-color .18s var(--ease),background .18s var(--ease)}
+.inp::placeholder{color:var(--inp-ph);opacity:1}
+.inp:hover{background:var(--g-recess)}
+.inp:focus{outline:3px solid var(--focus);outline-offset:2px;border-color:var(--g-fg)}
+.inp[aria-invalid=true]{border-color:var(--danger);border-width:2px}
+.inp[disabled]{background:var(--paper-3);color:var(--ink-mute);cursor:not-allowed;
+  border-color:var(--paper-3)}
+
+.tag{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;
+  font-family:var(--mono);font-size:var(--t-label);font-weight:600;
+  text-transform:uppercase;letter-spacing:.12em;
+  border:1px solid currentColor;color:var(--tag-fg)}
+.tag-solid{background:var(--tag-solid-bg);color:var(--tag-solid-fg);
+  border-color:var(--tag-solid-bg)}
+.tag-signal{color:var(--signal-here)}
+
+/* the bordered plaque — the mark's container, and the system's one frame */
+.plaque{display:inline-grid;place-items:center;border:2px solid currentColor;
+  padding:var(--s3);border-radius:0}
+
+/* ======================================================== THE ERASURE ===
+   The system's signature material. Slots cut horizontally through any solid
+   form, thickening downward while the bands between them thin — the same
+   progression that cuts the 1 in the wordmark. Applies to type, rules,
+   fields, images: anything with a box. One per surface.                     */
+.erase{
+  --erase-mask:linear-gradient(to bottom,
+    #000 0 45.9%, transparent 45.9% 47.7%,
+    #000 47.7% 54.1%, transparent 54.1% 56.4%,
+    #000 56.4% 61.9%, transparent 61.9% 65.1%,
+    #000 65.1% 69.8%, transparent 69.8% 73.8%,
+    #000 73.8% 77.6%, transparent 77.6% 82.6%,
+    #000 82.6% 85.5%, transparent 85.5% 91.3%,
+    #000 91.3% 93.3%, transparent 93.3% 98.8%,
+    #000 98.8% 100%);
+  -webkit-mask-image:var(--erase-mask);mask-image:var(--erase-mask)}
+/* .erase-soft — the same rhythm, half depth. For long passages and any
+   surface carrying body copy, where the full cut would cost legibility.    */
+.erase-soft{
+  --erase-mask:linear-gradient(to bottom,
+    #000 0 62%, rgba(0,0,0,.86) 70%, rgba(0,0,0,.62) 82%,
+    rgba(0,0,0,.34) 92%, rgba(0,0,0,.14) 100%);
+  -webkit-mask-image:var(--erase-mask);mask-image:var(--erase-mask)}
+
+/* =========================================================== THE GRAIN ===
+   Halftone reproduction, dissolving. Two offset dot grids under a falloff
+   mask. Textures come from the subject's world: this one is what happens to
+   an image that has been copied until it stops being one.                   */
+.grain{position:relative;isolation:isolate}
+.grain::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:
+    radial-gradient(circle at 50% 50%, var(--grain-c,currentColor) 0 1.5px, transparent 1.6px),
+    radial-gradient(circle at 50% 50%, var(--grain-c,currentColor) 0 .9px, transparent 1px);
+  background-size:8px 8px,8px 8px;
+  background-position:0 0,4px 4px;
+  opacity:var(--grain-o,.22);
+  -webkit-mask-image:linear-gradient(to bottom,#000,transparent);
+  mask-image:linear-gradient(to bottom,#000,transparent)}
+.grain-up::after{-webkit-mask-image:linear-gradient(to top,#000,transparent);
+  mask-image:linear-gradient(to top,#000,transparent)}
+.grain-full::after{-webkit-mask-image:none;mask-image:none}
+
+/* ============================================================= LAYOUT === */
+.wrap{width:min(100% - var(--s6),1360px);margin-inline:auto;min-width:0}
+.wrap-tight{width:min(100% - var(--s6),980px);margin-inline:auto}
+.stack>*+*{margin-top:var(--s4)}
+.stack-lg>*+*{margin-top:var(--s6)}
+.cols{display:grid;gap:var(--s6)}
+.cols>*{min-width:0}
+@media(min-width:900px){
+  .cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .cols-side{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
+  .cols-index{grid-template-columns:minmax(0,3fr) minmax(0,9fr)}
+}
+@media(min-width:640px) and (max-width:899px){
+  .cols-3,.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* ============================================================== TABLE === */
+.spec{width:100%;border-collapse:collapse;font-size:var(--t-small)}
+.spec th,.spec td{text-align:left;padding:10px var(--s3);
+  border-bottom:1px solid var(--g-rule);vertical-align:top}
+.spec th{font-family:var(--mono);font-size:var(--t-label);font-weight:600;
+  text-transform:uppercase;letter-spacing:.12em;color:var(--g-fg-2);
+  border-bottom-color:var(--g-rule-firm);white-space:nowrap}
+.spec td:first-child{font-family:var(--mono);font-size:.8125rem;white-space:nowrap}
+.spec tbody tr:hover{background:var(--g-recess)}
+.spec .num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+/* A scroller inside a grid or flex track needs min-width:0, or the track
+   sizes to the table and the page scrolls sideways instead of the table. */
+.scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch;min-width:0;max-width:100%}
+.stack>*{min-width:0}
+/* Only tables that actually need the room get a scroll floor. A two-column
+   table forced to 34rem pushes its values off a phone screen entirely. */
+.spec-wide{min-width:34rem}
+
+/* ============================================================ MOTION ==== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
