@@ -9,10 +9,10 @@
  */
 
 /** Real. The model provider's own retention terms, cited on the page. */
-export const PROVIDER_TRUST_URL = "https://trust.novita.ai"
+export const PROVIDER_TRUST_URL = "https://docs.baseten.co/observability/security"
 
 /** Real. The provider named in the copy, so the citation is checkable. */
-export const PROVIDER_NAME = "Novita"
+export const PROVIDER_NAME = "Baseten"
 
 /** PLACEHOLDER — the repository is not published under a URL yet. */
 export const SOURCE_URL = "#"
